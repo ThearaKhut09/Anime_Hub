@@ -267,10 +267,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <ul class="user-dropdown-links">
-                        <li><a href="categories.html"><i class="fa fa-film"></i> Anime Catalog</a></li>
-                        <li><a href="categories.html?type=watchlist"><i class="fa fa-heart"></i> My Watchlist</a></li>
-                        <li><a href="contacts.html"><i class="fa fa-envelope"></i> Contact Support</a></li>
-                        <li><a href="javascript:void(0)" class="logout-link" id="header-logout-btn"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                        <li><a href="categories.html"><span class="dropdown-icon-box"><i class="fa fa-film"></i></span> Anime Catalog</a></li>
+                        <li><a href="categories.html?type=watchlist"><span class="dropdown-icon-box"><i class="fa fa-heart"></i></span> My Watchlist</a></li>
+                        <li><a href="contacts.html"><span class="dropdown-icon-box"><i class="fa fa-envelope"></i></span> Contact Support</a></li>
+                        <li><a href="javascript:void(0)" class="logout-link" id="header-logout-btn"><span class="dropdown-icon-box"><i class="fa fa-sign-out"></i></span> Log Out</a></li>
                     </ul>
                 </div>
             </div>
