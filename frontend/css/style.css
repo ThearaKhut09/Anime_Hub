@@ -2425,68 +2425,203 @@ ol {
 
 /* Tablet Device = 768px */
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+/* Tablet & Mobile Devices = <= 991px */
+
+@media only screen and (max-width: 991px) {
 	.hero {
 		overflow: hidden;
 	}
 	.header {
 		position: relative;
+		padding: 14px 0;
+		background: #070720;
 	}
 	.header .container {
 		position: relative;
 	}
+	.header .row {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: space-between !important;
+		flex-wrap: nowrap !important;
+		margin: 0 !important;
+	}
+	.header .col-lg-2 {
+		flex: 0 0 auto !important;
+		width: auto !important;
+		padding: 0 !important;
+	}
+	.header .col-lg-7 {
+		display: none !important;
+	}
+	.header .col-lg-3 {
+		flex: 0 0 auto !important;
+		width: auto !important;
+		padding: 0 !important;
+		display: flex !important;
+		align-items: center !important;
+	}
+	.header__logo {
+		padding: 0 !important;
+	}
+	.header__logo img {
+		max-height: 36px;
+	}
 	.header__right {
-		position: absolute;
-		right: 120px;
-		top: -42px;
-		padding: 0;
+		position: relative !important;
+		top: auto !important;
+		right: auto !important;
+		padding: 0 !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: flex-end !important;
+		margin: 0 !important;
+		margin-right: 95px !important; /* Clean space to sit comfortably on the left of MENU */
+	}
+	/* Hide desktop profile pill on mobile header bar */
+	.header__right .user-profile-menu,
+	.header__right a[href*="login.html"] {
+		display: none !important;
+	}
+	.header__right a.search-switch {
+		font-size: 20px !important;
+		color: #ffffff !important;
+		padding: 4px;
+		display: inline-flex !important;
+		align-items: center;
+		justify-content: center;
+		margin: 0 !important;
+		cursor: pointer;
+		transition: color 0.3s;
+	}
+	.header__right a.search-switch:hover {
+		color: #e53637 !important;
 	}
 	.header__menu {
 		display: none;
 	}
-	.slicknav_menu {
-		background: transparent;
-		padding: 0;
-		display: block;
+	#mobile-menu-wrap {
+		position: static !important;
 	}
+	.slicknav_menu {
+		position: static !important;
+		background: transparent !important;
+		padding: 0 !important;
+		display: block !important;
+	}
+	.slicknav_btn {
+		position: absolute !important;
+		right: 15px !important;
+		top: 50% !important;
+		transform: translateY(-50%) !important;
+		margin: 0 !important;
+		background: #e53637 !important;
+		border: none !important;
+		border-radius: 6px !important;
+		padding: 6px 12px !important;
+		box-shadow: 0 4px 15px rgba(229, 54, 55, 0.4) !important;
+		z-index: 1000 !important;
+	}
+	.slicknav_btn:hover {
+		background: #ff4757 !important;
+	}
+	.slicknav_btn .slicknav_icon-bar {
+		background-color: #ffffff !important;
+	}
+	.slicknav_btn .slicknav_menutxt {
+		color: #ffffff !important;
+		font-weight: 700 !important;
+		font-size: 13px !important;
+		letter-spacing: 0.5px !important;
+		text-shadow: none !important;
+	}
+	/* Full-Width Beautiful Dropdown Menu across mobile screen */
 	.slicknav_nav {
-		position: absolute;
-		left: 0;
-		top: 60px;
-		width: 100%;
-		background: #ffffff;
-		padding: 15px 30px;
-		z-index: 9;
+		position: absolute !important;
+		left: 15px !important;
+		right: 15px !important;
+		top: calc(100% + 12px) !important;
+		width: calc(100% - 30px) !important;
+		max-width: 100% !important;
+		background: #0b0c2a !important;
+		border: 1px solid rgba(229, 54, 55, 0.4) !important;
+		border-radius: 12px !important;
+		box-shadow: 0 15px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(229, 54, 55, 0.15) !important;
+		padding: 16px 22px !important;
+		z-index: 99999 !important;
 	}
 	.slicknav_nav ul {
-		margin: 0;
+		margin: 0 !important;
+		padding: 5px 0 5px 18px !important;
+		border-left: 2px solid rgba(229, 54, 55, 0.4) !important;
 	}
 	.slicknav_nav .slicknav_row,
 	.slicknav_nav a {
-		padding: 7px 0;
-		margin: 0;
-		color: #111111;
-		font-weight: 600;
+		padding: 11px 0 !important;
+		margin: 0 !important;
+		color: #ffffff !important;
+		font-weight: 600 !important;
+		font-size: 15px !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+		transition: all 0.2s ease !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: space-between !important;
+		white-space: normal !important;
 	}
-	.slicknav_btn {
-		border-radius: 0;
-		background-color: #222;
-		position: absolute;
-		right: 0;
-		top: 9px;
+	.slicknav_nav .slicknav_row a {
+		border-bottom: none !important;
+		padding: 0 !important;
+		color: #ffffff !important;
+	}
+	.slicknav_nav ul a {
+		font-size: 14px !important;
+		color: #b7b7b7 !important;
+		padding: 8px 0 !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+	}
+	.slicknav_nav .slicknav_row:hover,
+	.slicknav_nav a:hover {
+		color: #e53637 !important;
+		background: transparent !important;
+		padding-left: 4px !important;
 	}
 	.slicknav_nav .slicknav_arrow {
-		color: #111111;
+		color: #e53637 !important;
+		font-size: 12px !important;
+		margin-left: 10px !important;
 	}
-	.slicknav_nav .slicknav_row:hover {
-		border-radius: 0;
-		background: transparent;
-		color: #111111;
+	/* Mobile Menu Profile Section */
+	.mobile-user-card {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 12px 14px;
+		background: rgba(229, 54, 55, 0.12);
+		border: 1px solid rgba(229, 54, 55, 0.35);
+		border-radius: 8px;
+		margin-bottom: 12px;
 	}
-	.slicknav_nav a:hover {
-		border-radius: 0;
-		background: transparent;
-		color: #111111;
+	.mobile-user-card .user-avatar-circle {
+		width: 32px;
+		height: 32px;
+		min-width: 32px;
+		min-height: 32px;
+		font-size: 14px;
+	}
+	.mobile-user-info strong {
+		display: block;
+		color: #ffffff;
+		font-size: 14px;
+		margin-bottom: 2px;
+	}
+	.mobile-user-info span {
+		display: inline-block;
+		font-size: 10px;
+		font-weight: 700;
+		color: #ff6b6b;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
 	}
 	.product__sidebar {
 		padding-top: 50px;
@@ -2533,78 +2668,6 @@ ol {
 @media only screen and (max-width: 767px) {
 	.hero {
 		overflow: hidden;
-	}
-	.header {
-		position: relative;
-	}
-	.header .container {
-		position: relative;
-	}
-	.header__right {
-		position: absolute;
-		right: 120px;
-		top: -42px;
-		padding: 0;
-	}
-	.header__menu {
-		display: none;
-	}
-	.slicknav_menu {
-		background: transparent;
-		padding: 0;
-		display: block;
-	}
-	.slicknav_nav {
-		position: absolute;
-		left: 0;
-		top: 60px;
-		width: 100%;
-		background: #ffffff;
-		padding: 15px 30px;
-		z-index: 9;
-	}
-	.slicknav_nav ul {
-		margin: 0;
-	}
-	.slicknav_nav .slicknav_row,
-	.slicknav_nav a {
-		padding: 7px 0;
-		margin: 0;
-		color: #111111;
-		font-weight: 600;
-	}
-	.slicknav_btn {
-		border-radius: 0;
-		background-color: #222;
-		position: absolute;
-		right: 0;
-		top: 9px;
-	}
-	.slicknav_nav .slicknav_arrow {
-		color: #111111;
-	}
-	.slicknav_nav .slicknav_row:hover {
-		border-radius: 0;
-		background: transparent;
-		color: #111111;
-	}
-	.slicknav_nav a:hover {
-		border-radius: 0;
-		background: transparent;
-		color: #111111;
-	}
-	.product__sidebar {
-		padding-top: 50px;
-	}
-	.footer__logo {
-		text-align: center;
-		margin-bottom: 20px;
-	}
-	.footer__nav {
-		margin-bottom: 15px;
-	}
-	.footer__copyright__text {
-		text-align: center;
 	}
 	.blog__details__title h2 {
 		font-size: 34px;

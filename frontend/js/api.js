@@ -2,9 +2,9 @@
  * Anime Hub Frontend API Client
  */
 
-const API_BASE_URL = window.location.origin.includes('5000') 
-    ? '/api' 
-    : 'http://localhost:5000/api';
+const API_BASE_URL = (window.location.port === '5000')
+    ? '/api'
+    : `http://${window.location.hostname || 'localhost'}:5000/api`;
 
 const API = {
     // Auth Helpers
@@ -122,70 +122,112 @@ const API = {
 document.addEventListener('DOMContentLoaded', () => {
     const user = API.auth.getUser();
     const headerRight = document.querySelector('.header__right');
-    
-    if (headerRight) {
+
+    // Desktop Header User Widget
+    if (headerRight && user) {
         const oldProfileLink = headerRight.querySelector('a[href*="login.html"], .user-profile-menu');
-        
-        if (user) {
-            const firstLetter = (user.username || 'U').charAt(0).toUpperCase();
-            const roleName = user.role === 'admin' ? 'Admin' : 'VIP Member';
-            
-            const profileMenuHtml = `
-                <div class="user-profile-menu" id="user-profile-menu">
-                    <button class="user-profile-btn" id="user-profile-toggle" type="button">
-                        <span class="user-avatar-circle">${firstLetter}</span>
-                        <span class="user-profile-name">${user.username}</span>
-                        <span class="arrow_carrot-down" style="font-size: 12px;"></span>
-                    </button>
-                    <div class="user-dropdown-card">
-                        <div class="user-dropdown-header">
-                            <div class="user-avatar-circle">${firstLetter}</div>
-                            <div class="user-dropdown-info">
-                                <h5 class="user-dropdown-name">${user.username}</h5>
-                                <p class="user-dropdown-email">${user.email}</p>
-                                <span class="user-role-badge">${roleName}</span>
+        const firstLetter = (user.username || 'U').charAt(0).toUpperCase();
+        const roleName = user.role === 'admin' ? 'Admin' : 'VIP Member';
+
+        const profileMenuHtml = `
+            <div class="user-profile-menu" id="user-profile-menu">
+                <button class="user-profile-btn" id="user-profile-toggle" type="button">
+                    <span class="user-avatar-circle">${firstLetter}</span>
+                    <span class="user-profile-name">${user.username}</span>
+                    <span class="arrow_carrot-down" style="font-size: 12px;"></span>
+                </button>
+                <div class="user-dropdown-card">
+                    <div class="user-dropdown-header">
+                        <div class="user-avatar-circle">${firstLetter}</div>
+                        <div class="user-dropdown-info">
+                            <h5 class="user-dropdown-name">${user.username}</h5>
+                            <p class="user-dropdown-email">${user.email}</p>
+                            <span class="user-role-badge">${roleName}</span>
+                        </div>
+                    </div>
+                    <ul class="user-dropdown-links">
+                        <li><a href="categories.html"><i class="fa fa-film"></i> Anime Catalog</a></li>
+                        <li><a href="contacts.html"><i class="fa fa-envelope"></i> Contact Support</a></li>
+                        <li><a href="javascript:void(0)" class="logout-link" id="header-logout-btn"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        if (oldProfileLink) {
+            oldProfileLink.outerHTML = profileMenuHtml;
+        } else {
+            headerRight.insertAdjacentHTML('beforeend', profileMenuHtml);
+        }
+
+        // Click listener for desktop logout
+        const logoutBtn = document.getElementById('header-logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                API.auth.logout();
+            });
+        }
+
+        // Click toggle on mobile/touch
+        const menuToggle = document.getElementById('user-profile-toggle');
+        const menuContainer = document.getElementById('user-profile-menu');
+        if (menuToggle && menuContainer) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuContainer.classList.toggle('active');
+            });
+            document.addEventListener('click', (e) => {
+                if (!menuContainer.contains(e.target)) {
+                    menuContainer.classList.remove('active');
+                }
+            });
+        }
+    }
+
+    // Sync user state with Mobile SlickNav Menu
+    const syncMobileMenu = () => {
+        const slicknavNav = document.querySelector('.slicknav_nav');
+        if (slicknavNav && !slicknavNav.querySelector('.mobile-auth-section')) {
+            let mobileHtml = '';
+            if (user) {
+                const firstLetter = (user.username || 'U').charAt(0).toUpperCase();
+                const roleName = user.role === 'admin' ? 'Admin' : 'VIP Member';
+                mobileHtml = `
+                    <li class="mobile-auth-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        <div class="mobile-user-card">
+                            <span class="user-avatar-circle">${firstLetter}</span>
+                            <div class="mobile-user-info">
+                                <strong>${user.username}</strong>
+                                <span>${roleName}</span>
                             </div>
                         </div>
-                        <ul class="user-dropdown-links">
-                            <li><a href="categories.html"><i class="fa fa-film"></i> Anime Catalog</a></li>
-                            <li><a href="contacts.html"><i class="fa fa-envelope"></i> Contact Support</a></li>
-                            <li><a href="javascript:void(0)" class="logout-link" id="header-logout-btn"><i class="fa fa-sign-out"></i> Log Out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-            
-            if (oldProfileLink) {
-                oldProfileLink.outerHTML = profileMenuHtml;
+                    </li>
+                    <li><a href="javascript:void(0)" id="mobile-nav-logout" style="color: #ff6b6b !important;"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                `;
             } else {
-                headerRight.insertAdjacentHTML('beforeend', profileMenuHtml);
+                mobileHtml = `
+                    <li class="mobile-auth-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        <a href="login.html"><i class="fa fa-sign-in"></i> Login</a>
+                    </li>
+                    <li><a href="signup.html" style="color: #e53637 !important;"><i class="fa fa-user-plus"></i> Register</a></li>
+                `;
             }
+            slicknavNav.insertAdjacentHTML('beforeend', mobileHtml);
 
-            // Click listener for logout
-            const logoutBtn = document.getElementById('header-logout-btn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', (e) => {
+            const mobileLogout = document.getElementById('mobile-nav-logout');
+            if (mobileLogout) {
+                mobileLogout.addEventListener('click', (e) => {
                     e.preventDefault();
                     API.auth.logout();
                 });
             }
-
-            // Click toggle on mobile/touch
-            const menuToggle = document.getElementById('user-profile-toggle');
-            const menuContainer = document.getElementById('user-profile-menu');
-            if (menuToggle && menuContainer) {
-                menuToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    menuContainer.classList.toggle('active');
-                });
-                document.addEventListener('click', (e) => {
-                    if (!menuContainer.contains(e.target)) {
-                        menuContainer.classList.remove('active');
-                    }
-                });
-            }
         }
-    }
+    };
+
+    syncMobileMenu();
+    setTimeout(syncMobileMenu, 250);
+    setTimeout(syncMobileMenu, 800);
 
     // Handle Already Logged In State on login.html and signup.html
     const isAuthPage = window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html');
@@ -221,4 +263,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.API = API;
-
