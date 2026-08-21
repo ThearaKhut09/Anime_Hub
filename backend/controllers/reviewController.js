@@ -24,6 +24,30 @@ const getReviewsByAnime = async (req, res, next) => {
     }
 };
 
+// @route   GET /api/reviews
+// @desc    Get all reviews across all anime (Admin only)
+const getAllReviews = async (req, res, next) => {
+    try {
+        const result = await query(
+            `SELECT r.id, r.comment, r.rating, r.created_at,
+                    u.username, u.avatar_url, u.role,
+                    a.id AS anime_id, a.title AS anime_title
+             FROM reviews r
+             JOIN users u ON r.user_id = u.id
+             JOIN anime a ON r.anime_id = a.id
+             ORDER BY r.created_at DESC
+             LIMIT 50`
+        );
+        res.json({
+            success: true,
+            count: result.rows.length,
+            data: result.rows
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 // @route   POST /api/reviews/:animeId
 // @desc    Add review/comment for an anime (Authenticated)
 const addReview = async (req, res, next) => {
@@ -60,7 +84,24 @@ const addReview = async (req, res, next) => {
     }
 };
 
+// @route   DELETE /api/reviews/:id
+// @desc    Delete review (Admin only)
+const deleteReview = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        await query('DELETE FROM reviews WHERE id = $1', [id]);
+        res.json({
+            success: true,
+            message: 'Review deleted successfully.'
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     getReviewsByAnime,
-    addReview
+    getAllReviews,
+    addReview,
+    deleteReview
 };

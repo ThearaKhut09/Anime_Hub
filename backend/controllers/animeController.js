@@ -4,7 +4,7 @@ const { query } = require('../config/db');
 // @desc    Get anime list with filter, search, sort & pagination
 const getAnimeList = async (req, res, next) => {
     try {
-        const { type, genre, q, sort = 'recent', limit = 24, page = 1 } = req.query;
+        const { type, genre, q, search, sort = 'recent', limit = 24, page = 1 } = req.query;
         const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
         let sql = `SELECT id, title, native_title, type, genre, synopsis, studio, status, 
@@ -30,10 +30,11 @@ const getAnimeList = async (req, res, next) => {
             params.push(`%${genre.toLowerCase()}%`);
         }
 
-        if (q) {
-            sql += ` AND (LOWER(title) LIKE $${paramIdx} OR LOWER(native_title) LIKE $${paramIdx})`;
+        const searchTerm = q || search;
+        if (searchTerm) {
+            sql += ` AND (LOWER(title) LIKE $${paramIdx} OR LOWER(native_title) LIKE $${paramIdx} OR LOWER(genre) LIKE $${paramIdx})`;
             paramIdx++;
-            params.push(`%${q.toLowerCase()}%`);
+            params.push(`%${searchTerm.toLowerCase()}%`);
         }
 
         // Sorting
@@ -66,7 +67,7 @@ const getAnimeList = async (req, res, next) => {
 };
 
 // @route   GET /api/anime/:id
-// @desc    Get single anime details with episodes and reviews
+// @desc    Get single anime details by ID with episodes & reviews
 const getAnimeById = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -123,17 +124,17 @@ const getAnimeById = async (req, res, next) => {
 // @desc    Create new anime (Admin only)
 const createAnime = async (req, res, next) => {
     try {
-        const { title, native_title, type, genre, synopsis, studio, status, release_date, poster_url, backdrop_url } = req.body;
+        const { title, native_title, type, genre, synopsis, studio, status, rating, poster_url, backdrop_url } = req.body;
 
         if (!title || !genre || !poster_url) {
             return res.status(400).json({ success: false, message: 'Title, genre, and poster URL are required.' });
         }
 
         const result = await query(
-            `INSERT INTO anime (title, native_title, type, genre, synopsis, studio, status, release_date, poster_url, backdrop_url)
+            `INSERT INTO anime (title, native_title, type, genre, synopsis, studio, status, rating, poster_url, backdrop_url)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
              RETURNING *`,
-            [title, native_title, type || 'TV Series', genre, synopsis, studio, status || 'Airing', release_date, poster_url, backdrop_url]
+            [title, native_title, type || 'TV Series', genre, synopsis, studio, status || 'Airing', rating ? parseFloat(rating) : 8.5, poster_url, backdrop_url || poster_url]
         );
 
         res.status(201).json({
@@ -146,8 +147,53 @@ const createAnime = async (req, res, next) => {
     }
 };
 
+// @route   DELETE /api/anime/:id
+// @desc    Delete anime (Admin only)
+const deleteAnime = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const result = await query('DELETE FROM anime WHERE id = $1 RETURNING id, title', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Anime not found.' });
+        }
+        res.json({
+            success: true,
+            message: `Anime "${result.rows[0].title}" deleted successfully.`
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// @route   GET /api/anime/admin/stats
+// @desc    Get system overview stats for Admin Dashboard (Admin only)
+const getAdminStats = async (req, res, next) => {
+    try {
+        const animeCount = await query('SELECT COUNT(*) FROM anime');
+        const userCount = await query('SELECT COUNT(*) FROM users');
+        const reviewCount = await query('SELECT COUNT(*) FROM reviews');
+        const messageCount = await query('SELECT COUNT(*) FROM contact_messages');
+        const viewsCount = await query('SELECT COALESCE(SUM(views), 0) AS total_views FROM anime');
+
+        res.json({
+            success: true,
+            stats: {
+                totalAnime: parseInt(animeCount.rows[0].count, 10),
+                totalUsers: parseInt(userCount.rows[0].count, 10),
+                totalReviews: parseInt(reviewCount.rows[0].count, 10),
+                totalMessages: parseInt(messageCount.rows[0].count, 10),
+                totalViews: parseInt(viewsCount.rows[0].total_views, 10)
+            }
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     getAnimeList,
     getAnimeById,
-    createAnime
+    createAnime,
+    deleteAnime,
+    getAdminStats
 };

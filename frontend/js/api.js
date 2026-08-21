@@ -157,6 +157,67 @@ const API = {
             });
             return await response.json();
         }
+    },
+
+    // Admin API
+    admin: {
+        async getStats() {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/anime/admin/stats`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return await response.json();
+        },
+        async createAnime(animeData) {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/anime`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(animeData)
+            });
+            return await response.json();
+        },
+        async deleteAnime(id) {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/anime/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return await response.json();
+        },
+        async getContacts() {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/contacts`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return await response.json();
+        },
+        async deleteContact(id) {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/contacts/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return await response.json();
+        },
+        async getReviews() {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/reviews`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return await response.json();
+        },
+        async deleteReview(id) {
+            const token = API.auth.getToken();
+            const response = await fetch(`${API_BASE_URL}/reviews/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return await response.json();
+        }
     }
 };
 
@@ -250,6 +311,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const firstLetter = (user.username || 'U').charAt(0).toUpperCase();
         const roleName = user.role === 'admin' ? 'Admin' : 'VIP Member';
 
+        const adminLinkHtml = user.role === 'admin' 
+            ? `<li><a href="admin.html" style="color: #ffd32a !important;"><span class="dropdown-icon-box" style="background: rgba(255, 211, 42, 0.18) !important; border-color: rgba(255, 211, 42, 0.45) !important;"><i class="fa fa-shield" style="color: #ffd32a !important;"></i></span> Admin Dashboard</a></li>`
+            : '';
+
         const profileMenuHtml = `
             <div class="user-profile-menu" id="user-profile-menu">
                 <button class="user-profile-btn" id="user-profile-toggle" type="button">
@@ -267,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <ul class="user-dropdown-links">
+                        ${adminLinkHtml}
                         <li><a href="categories.html"><span class="dropdown-icon-box"><i class="fa fa-film"></i></span> Anime Catalog</a></li>
                         <li><a href="categories.html?type=watchlist"><span class="dropdown-icon-box"><i class="fa fa-heart"></i></span> My Watchlist</a></li>
                         <li><a href="contacts.html"><span class="dropdown-icon-box"><i class="fa fa-envelope"></i></span> Contact Support</a></li>

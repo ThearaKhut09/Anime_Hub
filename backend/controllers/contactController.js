@@ -27,6 +27,38 @@ const submitMessage = async (req, res, next) => {
     }
 };
 
+// @route   GET /api/contacts
+// @desc    Get all contact messages (Admin only)
+const getMessages = async (req, res, next) => {
+    try {
+        const result = await query('SELECT * FROM contact_messages ORDER BY created_at DESC');
+        res.json({
+            success: true,
+            count: result.rows.length,
+            data: result.rows
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// @route   DELETE /api/contacts/:id
+// @desc    Delete a contact message (Admin only)
+const deleteMessage = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        await query('DELETE FROM contact_messages WHERE id = $1', [id]);
+        res.json({
+            success: true,
+            message: 'Message deleted successfully.'
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
-    submitMessage
+    submitMessage,
+    getMessages,
+    deleteMessage
 };

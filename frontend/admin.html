@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Hub Admin Dashboard - Manage Anime, Reviews, and Inquiries">
+    <meta name="keywords" content="Anime, Admin, Dashboard, Management">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Dashboard - Anime Hub</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/plyr.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header__logo">
+                        <a href="./index.html">
+                            <img src="img/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li><a href="./index.html">Homepage</a></li>
+                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="./categories.html?type=all">All Anime</a></li>
+                                        <li><a href="./categories.html?type=action">Action & Adventure</a></li>
+                                        <li><a href="./categories.html?type=romance">Romance & Drama</a></li>
+                                        <li><a href="./categories.html?type=fantasy">Fantasy & Magic</a></li>
+                                        <li><a href="./categories.html?type=movies">Anime Movies</a></li>
+                                        <li><a href="./categories.html?type=tv">TV Series</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="./blog.html">Our Blog</a></li>
+                                <li><a href="./contacts.html">Contacts</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__right">
+                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                        <a href="./login.html"><span class="icon_profile"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Admin Dashboard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Admin Main Section -->
+    <section class="spad" style="min-height: 70vh;">
+        <div class="container" id="admin-container">
+            <!-- Access Denied or Loading State will be replaced if unauthorized -->
+            <div id="admin-auth-guard" class="text-center py-5">
+                <i class="fa fa-spinner fa-spin fa-3x text-danger mb-3"></i>
+                <h4 class="text-white">Verifying Admin Credentials...</h4>
+            </div>
+
+            <!-- Main Admin Dashboard Content (Shown only for Admin) -->
+            <div id="admin-content" style="display: none;">
+                <!-- Header Banner -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-2 border-bottom border-secondary">
+                    <div>
+                        <h2 class="text-white font-weight-bold" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px;">
+                            👑 Management Dashboard
+                        </h2>
+                        <p class="text-muted mb-0">Control anime catalog, user reviews, and contact messages in real-time.</p>
+                    </div>
+                    <div>
+                        <button class="primary-btn" id="open-add-anime-modal" style="background: linear-gradient(135deg, #e53637 0%, #ff4b4b 100%); border: none; border-radius: 8px; padding: 12px 24px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 54, 55, 0.4);">
+                            <i class="fa fa-plus-circle mr-1"></i> Add New Anime
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Global Feedback Alert -->
+                <div id="admin-global-alert" class="form-alert mb-4"></div>
+
+                <!-- 4 Overview Stats Cards -->
+                <div class="row mb-5" id="stats-row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(229, 54, 55, 0.15); border: 1px solid rgba(229, 54, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ff6b6b;">
+                                <i class="fa fa-film"></i>
+                            </div>
+                            <div>
+                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Total Anime</h6>
+                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-anime">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(0, 188, 212, 0.15); border: 1px solid rgba(0, 188, 212, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #00bcd4;">
+                                <i class="fa fa-eye"></i>
+                            </div>
+                            <div>
+                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Total Views</h6>
+                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-views">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(255, 211, 42, 0.15); border: 1px solid rgba(255, 211, 42, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffd32a;">
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div>
+                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">User Reviews</h6>
+                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-reviews">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(46, 213, 115, 0.15); border: 1px solid rgba(46, 213, 115, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #2ed573;">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Inquiries</h6>
+                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-messages">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <ul class="nav nav-tabs admin-tabs mb-4" id="adminTabs" role="tablist" style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                    <li class="nav-item">
+                        <a class="nav-link active font-weight-bold" id="anime-tab" data-toggle="tab" href="#tab-anime" role="tab" style="color: #ffffff; padding: 12px 24px; border: none; border-bottom: 3px solid #e53637; background: transparent;">
+                            <i class="fa fa-film mr-2"></i> Anime Catalog
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" id="reviews-tab" data-toggle="tab" href="#tab-reviews" role="tab" style="color: #a0aec0; padding: 12px 24px; border: none; background: transparent;">
+                            <i class="fa fa-comments mr-2"></i> User Reviews
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" id="messages-tab" data-toggle="tab" href="#tab-messages" role="tab" style="color: #a0aec0; padding: 12px 24px; border: none; background: transparent;">
+                            <i class="fa fa-envelope mr-2"></i> Contact Messages
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tab Contents -->
+                <div class="tab-content" id="adminTabsContent">
+                    <!-- Tab 1: Anime Catalog -->
+                    <div class="tab-pane fade show active" id="tab-anime" role="tabpanel">
+                        <div style="background: #1d1e39; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                            <div class="p-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom border-secondary">
+                                <h5 class="text-white mb-0 font-weight-bold">All Anime Titles</h5>
+                                <input type="text" id="admin-anime-search" placeholder="Search catalog..." style="max-width: 250px; background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 6px 14px; border-radius: 6px; font-size: 14px;">
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                                    <thead>
+                                        <tr style="background: rgba(0,0,0,0.2); border-bottom: 2px solid rgba(255,255,255,0.1); color: #a0aec0; font-size: 13px; text-transform: uppercase;">
+                                            <th style="padding: 16px;">Poster</th>
+                                            <th style="padding: 16px;">Title & Japanese</th>
+                                            <th style="padding: 16px;">Type / Genre</th>
+                                            <th style="padding: 16px;">Rating</th>
+                                            <th style="padding: 16px;">Views</th>
+                                            <th style="padding: 16px;">Status</th>
+                                            <th style="padding: 16px; text-align: right;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-anime-tbody">
+                                        <tr>
+                                            <td colspan="7" class="text-center py-4 text-muted">
+                                                <i class="fa fa-spinner fa-spin"></i> Loading anime list...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: User Reviews -->
+                    <div class="tab-pane fade" id="tab-reviews" role="tabpanel">
+                        <div style="background: #1d1e39; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                            <div class="p-3 border-bottom border-secondary">
+                                <h5 class="text-white mb-0 font-weight-bold">Recent User Reviews</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                                    <thead>
+                                        <tr style="background: rgba(0,0,0,0.2); border-bottom: 2px solid rgba(255,255,255,0.1); color: #a0aec0; font-size: 13px; text-transform: uppercase;">
+                                            <th style="padding: 16px;">User</th>
+                                            <th style="padding: 16px;">Anime Title</th>
+                                            <th style="padding: 16px;">Rating</th>
+                                            <th style="padding: 16px;">Review Comment</th>
+                                            <th style="padding: 16px;">Date</th>
+                                            <th style="padding: 16px; text-align: right;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-reviews-tbody">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4 text-muted">
+                                                <i class="fa fa-spinner fa-spin"></i> Loading reviews...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Contact Messages -->
+                    <div class="tab-pane fade" id="tab-messages" role="tabpanel">
+                        <div style="background: #1d1e39; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                            <div class="p-3 border-bottom border-secondary">
+                                <h5 class="text-white mb-0 font-weight-bold">Inquiries & Feedback</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                                    <thead>
+                                        <tr style="background: rgba(0,0,0,0.2); border-bottom: 2px solid rgba(255,255,255,0.1); color: #a0aec0; font-size: 13px; text-transform: uppercase;">
+                                            <th style="padding: 16px;">Sender Name</th>
+                                            <th style="padding: 16px;">Email</th>
+                                            <th style="padding: 16px;">Message</th>
+                                            <th style="padding: 16px;">Received Date</th>
+                                            <th style="padding: 16px; text-align: right;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-messages-tbody">
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4 text-muted">
+                                                <i class="fa fa-spinner fa-spin"></i> Loading messages...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Dialog: Add New Anime -->
+    <div class="modal fade" id="addAnimeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content" style="background: #131433; border: 1px solid rgba(229, 54, 55, 0.4); border-radius: 14px; box-shadow: 0 25px 60px rgba(0,0,0,0.9);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 25px;">
+                    <h5 class="modal-title text-white font-weight-bold" style="font-family: 'Oswald', sans-serif;">
+                        <i class="fa fa-plus-circle text-danger mr-2"></i> Add New Anime
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 0.8;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="add-anime-form">
+                    <div class="modal-body" style="padding: 25px;">
+                        <div id="modal-alert" class="form-alert"></div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Anime Title *</label>
+                                <input type="text" id="anime-form-title" class="form-control" placeholder="e.g. Solo Leveling" required style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Native / Japanese Title</label>
+                                <input type="text" id="anime-form-native" class="form-control" placeholder="e.g. 俺だけレベルアップな件" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Type *</label>
+                                <select id="anime-form-type" class="form-control" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                    <option value="TV Series">TV Series</option>
+                                    <option value="Movie">Movie</option>
+                                    <option value="OVA">OVA / Special</option>
+                                    <option value="Live Action">Live Action</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Status *</label>
+                                <select id="anime-form-status" class="form-control" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                    <option value="Airing">Airing</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Upcoming">Upcoming</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Rating (0 - 10)</label>
+                                <input type="number" step="0.1" min="1" max="10" id="anime-form-rating" class="form-control" value="8.5" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Genres (comma separated) *</label>
+                                <input type="text" id="anime-form-genre" class="form-control" placeholder="Action, Adventure, Fantasy" required style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Studio</label>
+                                <input type="text" id="anime-form-studio" class="form-control" placeholder="e.g. Ufotable / MAPPA" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Poster URL *</label>
+                                <input type="text" id="anime-form-poster" class="form-control" placeholder="img/trending/trend-1.jpg or https://..." required style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="text-white font-weight-bold" style="font-size: 13px;">Backdrop Banner URL</label>
+                                <input type="text" id="anime-form-backdrop" class="form-control" placeholder="img/hero/hero-1.jpg or https://..." style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-white font-weight-bold" style="font-size: 13px;">Synopsis / Story Description</label>
+                            <textarea id="anime-form-synopsis" class="form-control" rows="3" placeholder="Enter anime storyline synopsis..." style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 25px;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 6px;">Cancel</button>
+                        <button type="submit" id="anime-form-submit-btn" class="primary-btn" style="background: #e53637; border: none; border-radius: 6px; padding: 10px 24px; font-weight: 700; cursor: pointer;">
+                            <i class="fa fa-check mr-1"></i> Save Anime
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="page-up">
+            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="footer__nav">
+                        <ul>
+                            <li><a href="./index.html">Homepage</a></li>
+                            <li><a href="./categories.html">Categories</a></li>
+                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="./contacts.html">Contacts</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Search model Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch"><i class="icon_close"></i></div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search model end -->
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const authGuard = document.getElementById('admin-auth-guard');
+            const adminContent = document.getElementById('admin-content');
+            const user = API.auth.getUser();
+
+            // Check Admin Authorization
+            if (!user || user.role !== 'admin') {
+                authGuard.innerHTML = `
+                    <div class="p-5 text-center" style="background: #1d1e39; border-radius: 14px; border: 1px solid rgba(229, 54, 55, 0.4); max-width: 500px; margin: 40px auto; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
+                        <i class="fa fa-shield fa-4x text-danger mb-3 d-block"></i>
+                        <h3 class="text-white mb-2">Access Denied</h3>
+                        <p class="text-muted mb-4">Administrator privileges are required to access this dashboard.</p>
+                        <a href="login.html" class="primary-btn" style="background: #e53637; padding: 12px 30px; border-radius: 6px; display: inline-block;">Log in as Admin</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show Admin Content
+            authGuard.style.display = 'none';
+            adminContent.style.display = 'block';
+
+            // Tab switching logic for styling
+            $('.admin-tabs a').on('click', function (e) {
+                e.preventDefault();
+                $('.admin-tabs a').removeClass('active').css({ 'border-bottom': 'none', 'color': '#a0aec0' });
+                $(this).addClass('active').css({ 'border-bottom': '3px solid #e53637', 'color': '#ffffff' });
+                $(this).tab('show');
+            });
+
+            // Open Modal handler
+            $('#open-add-anime-modal').on('click', function () {
+                $('#add-anime-form')[0].reset();
+                $('#modal-alert').hide();
+                $('#addAnimeModal').modal('show');
+            });
+
+            // Load Dashboard Overview Stats
+            async function loadStats() {
+                try {
+                    const res = await API.admin.getStats();
+                    if (res.success && res.stats) {
+                        $('#stat-total-anime').text(res.stats.totalAnime || 0);
+                        $('#stat-total-views').text(Number(res.stats.totalViews || 0).toLocaleString());
+                        $('#stat-total-reviews').text(res.stats.totalReviews || 0);
+                        $('#stat-total-messages').text(res.stats.totalMessages || 0);
+                    }
+                } catch (err) {
+                    console.error('Error loading stats:', err);
+                }
+            }
+
+            // Load Anime Catalog Table
+            async function loadAnimeTable() {
+                const tbody = $('#admin-anime-tbody');
+                try {
+                    const res = await API.anime.getAll({ limit: 100 });
+                    if (res.success && res.data) {
+                        if (res.data.length === 0) {
+                            tbody.html('<tr><td colspan="7" class="text-center py-4 text-muted">No anime records found.</td></tr>');
+                            return;
+                        }
+
+                        tbody.html(res.data.map(anime => `
+                            <tr>
+                                <td style="padding: 12px 16px; vertical-align: middle;">
+                                    <img src="${anime.poster_url}" alt="${anime.title}" style="width: 44px; height: 60px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" onerror="this.src='img/trending/trend-1.jpg'">
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle;">
+                                    <strong class="text-white d-block">${anime.title}</strong>
+                                    <span style="font-size: 12px; color: #8888aa;">${anime.native_title || ''}</span>
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle;">
+                                    <span class="badge badge-danger mr-1" style="background: #e53637;">${anime.type || 'TV'}</span>
+                                    <span style="font-size: 13px; color: #cbd5e1;">${anime.genre || ''}</span>
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffd32a; font-weight: 700;">
+                                    <i class="fa fa-star"></i> ${anime.rating || '8.5'}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #cbd5e1;">
+                                    ${Number(anime.views || 0).toLocaleString()}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle;">
+                                    <span class="badge ${anime.status === 'Completed' ? 'badge-success' : 'badge-primary'}" style="padding: 4px 8px;">${anime.status || 'Airing'}</span>
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; text-align: right;">
+                                    <a href="anime-details.html?id=${anime.id}" target="_blank" class="btn btn-sm btn-info mr-1" title="View"><i class="fa fa-eye"></i></a>
+                                    <button class="btn btn-sm btn-danger delete-anime-btn" data-id="${anime.id}" data-title="${anime.title}" title="Delete"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join(''));
+                    }
+                } catch (err) {
+                    tbody.html('<tr><td colspan="7" class="text-center py-4 text-danger">Failed to load anime catalog.</td></tr>');
+                }
+            }
+
+            // Load Reviews Table
+            async function loadReviewsTable() {
+                const tbody = $('#admin-reviews-tbody');
+                try {
+                    const res = await API.admin.getReviews();
+                    if (res.success && res.data) {
+                        if (res.data.length === 0) {
+                            tbody.html('<tr><td colspan="6" class="text-center py-4 text-muted">No user reviews found.</td></tr>');
+                            return;
+                        }
+
+                        tbody.html(res.data.map(rev => `
+                            <tr>
+                                <td style="padding: 12px 16px; vertical-align: middle;">
+                                    <strong class="text-white">${rev.username}</strong>
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #cbd5e1;">
+                                    ${rev.anime_title || 'Anime'}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffd32a;">
+                                    ${'⭐'.repeat(rev.rating || 5)}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffffff; max-width: 300px;">
+                                    ${rev.comment}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; font-size: 12px; color: #8888aa;">
+                                    ${new Date(rev.created_at).toLocaleDateString()}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; text-align: right;">
+                                    <button class="btn btn-sm btn-danger delete-review-btn" data-id="${rev.id}"><i class="fa fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                        `).join(''));
+                    }
+                } catch (err) {
+                    tbody.html('<tr><td colspan="6" class="text-center py-4 text-danger">Failed to load reviews.</td></tr>');
+                }
+            }
+
+            // Load Messages Table
+            async function loadMessagesTable() {
+                const tbody = $('#admin-messages-tbody');
+                try {
+                    const res = await API.admin.getContacts();
+                    if (res.success && res.data) {
+                        if (res.data.length === 0) {
+                            tbody.html('<tr><td colspan="5" class="text-center py-4 text-muted">No contact messages received.</td></tr>');
+                            return;
+                        }
+
+                        tbody.html(res.data.map(msg => `
+                            <tr>
+                                <td style="padding: 12px 16px; vertical-align: middle; font-weight: 700; color: #ffffff;">
+                                    ${msg.name}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #00bcd4;">
+                                    <a href="mailto:${msg.email}" style="color: #00bcd4;">${msg.email}</a>
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffffff; max-width: 350px;">
+                                    ${msg.message}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; font-size: 12px; color: #8888aa;">
+                                    ${new Date(msg.created_at).toLocaleDateString()}
+                                </td>
+                                <td style="padding: 12px 16px; vertical-align: middle; text-align: right;">
+                                    <button class="btn btn-sm btn-danger delete-message-btn" data-id="${msg.id}"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join(''));
+                    }
+                } catch (err) {
+                    tbody.html('<tr><td colspan="5" class="text-center py-4 text-danger">Failed to load messages.</td></tr>');
+                }
+            }
+
+            // Handle Add Anime Form Submission
+            $('#add-anime-form').on('submit', async function (e) {
+                e.preventDefault();
+                const alertBox = document.getElementById('modal-alert');
+                const submitBtn = document.getElementById('anime-form-submit-btn');
+
+                const payload = {
+                    title: $('#anime-form-title').val().trim(),
+                    native_title: $('#anime-form-native').val().trim(),
+                    type: $('#anime-form-type').val(),
+                    status: $('#anime-form-status').val(),
+                    rating: parseFloat($('#anime-form-rating').val()) || 8.5,
+                    genre: $('#anime-form-genre').val().trim(),
+                    studio: $('#anime-form-studio').val().trim(),
+                    poster_url: $('#anime-form-poster').val().trim(),
+                    backdrop_url: $('#anime-form-backdrop').val().trim(),
+                    synopsis: $('#anime-form-synopsis').val().trim()
+                };
+
+                alertBox.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Saving...';
+
+                try {
+                    const res = await API.admin.createAnime(payload);
+                    if (res.success) {
+                        alertBox.className = 'form-alert form-alert-success';
+                        alertBox.style.display = 'block';
+                        alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + res.message;
+                        setTimeout(() => {
+                            $('#addAnimeModal').modal('hide');
+                            loadAnimeTable();
+                            loadStats();
+                        }, 1200);
+                    } else {
+                        alertBox.className = 'form-alert form-alert-error';
+                        alertBox.style.display = 'block';
+                        alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + (res.message || 'Failed to add anime.');
+                    }
+                } catch (err) {
+                    alertBox.className = 'form-alert form-alert-error';
+                    alertBox.style.display = 'block';
+                    alertBox.innerHTML = '<i class="fa fa-exclamation-triangle"></i> ' + err.message;
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa fa-check mr-1"></i> Save Anime';
+                }
+            });
+
+            // Handle Delete Anime
+            $(document).on('click', '.delete-anime-btn', async function () {
+                const id = $(this).data('id');
+                const title = $(this).data('title');
+                if (!confirm(`Are you sure you want to delete "${title}"? This cannot be undone.`)) return;
+
+                try {
+                    const res = await API.admin.deleteAnime(id);
+                    if (res.success) {
+                        loadAnimeTable();
+                        loadStats();
+                    } else {
+                        alert(res.message || 'Failed to delete anime.');
+                    }
+                } catch (err) {
+                    alert(err.message || 'Error deleting anime.');
+                }
+            });
+
+            // Handle Delete Review
+            $(document).on('click', '.delete-review-btn', async function () {
+                const id = $(this).data('id');
+                if (!confirm('Are you sure you want to delete this review?')) return;
+
+                try {
+                    const res = await API.admin.deleteReview(id);
+                    if (res.success) {
+                        loadReviewsTable();
+                        loadStats();
+                    }
+                } catch (err) {
+                    alert(err.message || 'Error deleting review.');
+                }
+            });
+
+            // Handle Delete Message
+            $(document).on('click', '.delete-message-btn', async function () {
+                const id = $(this).data('id');
+                if (!confirm('Are you sure you want to delete this message?')) return;
+
+                try {
+                    const res = await API.admin.deleteContact(id);
+                    if (res.success) {
+                        loadMessagesTable();
+                        loadStats();
+                    }
+                } catch (err) {
+                    alert(err.message || 'Error deleting message.');
+                }
+            });
+
+            // Live filter for anime table
+            $('#admin-anime-search').on('input', function () {
+                const term = $(this).val().toLowerCase();
+                $('#admin-anime-tbody tr').each(function () {
+                    const rowText = $(this).text().toLowerCase();
+                    $(this).toggle(rowText.includes(term));
+                });
+            });
+
+            // Initial Data Load
+            loadStats();
+            loadAnimeTable();
+            loadReviewsTable();
+            loadMessagesTable();
+        });
+    </script>
+</body>
+
+</html>

@@ -3693,4 +3693,72 @@ body.light-mode .mobile-user-card {
 body.light-mode .mobile-user-info strong {
 	color: #1a202c !important;
 }
+
+/*------------------------------------
+  Admin Dashboard Modern Styles
+--------------------------------------*/
+.admin-stat-card {
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.admin-stat-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+}
+
+body.light-mode #admin-content h2,
+body.light-mode #admin-content h5 {
+	color: #1a202c !important;
+}
+
+body.light-mode .admin-stat-card {
+	background: #ffffff !important;
+	border: 1px solid #e2e8f0 !important;
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06) !important;
+}
+
+body.light-mode .admin-stat-card h3 {
+	color: #1a202c !important;
+}
+
+body.light-mode .admin-stat-card h6 {
+	color: #718096 !important;
+}
+
+body.light-mode #admin-content div[style*="background: #1d1e39"] {
+	background: #ffffff !important;
+	border: 1px solid #e2e8f0 !important;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+body.light-mode .table-dark {
+	color: #2d3748 !important;
+	background: transparent !important;
+}
+
+body.light-mode .table-dark thead tr {
+	background: #f8fafc !important;
+	border-bottom: 2px solid #e2e8f0 !important;
+	color: #4a5568 !important;
+}
+
+body.light-mode .table-dark tbody tr:hover {
+	background: #f1f5f9 !important;
+}
+
+body.light-mode .table-dark td strong.text-white {
+	color: #1a202c !important;
+}
+
+body.light-mode .table-dark td {
+	color: #2d3748 !important;
+	border-top: 1px solid #edf2f7 !important;
+}
+
+body.light-mode #admin-anime-search {
+	background: #ffffff !important;
+	border: 1px solid #cbd5e1 !important;
+	color: #1a202c !important;
+}
+
 
