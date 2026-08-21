@@ -105,7 +105,8 @@
         </section>
         <section class="contact-form">
             <h2>Contact Form</h2>
-            <form action="#" method="post">
+            <div id="contact-alert" style="display: none; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 14px;"></div>
+            <form id="contact-form">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
@@ -118,7 +119,7 @@
                     <label for="message">Message:</label>
                     <textarea id="message" name="message" rows="4" required></textarea>
                 </div>
-                <button type="submit">Send Message</button>
+                <button type="submit" id="contact-btn">Send Message</button>
             </form>
         </section>
     </main>
@@ -139,10 +140,10 @@
                 <div class="col-lg-6">
                     <div class="footer__nav">
                         <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
+                            <li><a href="./index.html">Homepage</a></li>
                             <li><a href="./categories.html">Categories</a></li>
                             <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="./contacts.html">Contacts</a></li>
+                            <li class="active"><a href="./contacts.html">Contacts</a></li>
                         </ul>
                     </div>
                 </div>
@@ -173,6 +174,45 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('contact-alert');
+            const submitBtn = document.getElementById('contact-btn');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            alertBox.style.display = 'none';
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            try {
+                const res = await API.contacts.send(name, email, message);
+                if (res.success) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#28a745';
+                    alertBox.style.color = '#ffffff';
+                    alertBox.textContent = '✅ ' + res.message;
+                    document.getElementById('contact-form').reset();
+                } else {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#dc3545';
+                    alertBox.style.color = '#ffffff';
+                    alertBox.textContent = '❌ ' + (res.message || 'Failed to send message.');
+                }
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#dc3545';
+                alertBox.style.color = '#ffffff';
+                alertBox.textContent = '❌ Unable to connect to server. Please ensure backend is running.';
+            } finally {
+                submitBtn.textContent = 'Send Message';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -83,55 +83,64 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="normal__breadcrumb__text">
-                        <h2>Sign Up</h2>
+                        <h2>Login</h2>
                         <p>Welcome to the official Anime blog.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
     <!-- Normal Breadcrumb End -->
 
-    <!-- Signup Section Begin -->
-    <section class="signup spad">
+    <!-- Login Section Begin -->
+    <section class="login spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="login__form">
-                        <h3>Sign Up</h3>
-                        <form action="#">
-                            <div class="input__item">
-                                <input type="text" placeholder="Email address">
-                                <span class="icon_mail"></span>
-                            </div>
-                            <div class="input__item">
-                                <input type="text" placeholder="Your Name">
-                                <span class="icon_profile"></span>
-                            </div>
-                            <div class="input__item">
-                                <input type="text" placeholder="Password">
-                                <span class="icon_lock"></span>
-                            </div>
-                            <button type="submit" class="site-btn">Sign Up Now</button>
-                        </form>
-                        <h5>Already have an account? <a href="login.html">Log In!</a></h5>
-                    </div>
+                        <div class="login__form">
+                            <h3>Login</h3>
+                            <div id="login-alert" style="display: none; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 14px;"></div>
+                            <form id="login-form">
+                                <div class="input__item">
+                                    <input type="email" id="login-email" placeholder="Email address" required>
+                                    <span class="icon_mail"></span>
+                                </div>
+                                <div class="input__item">
+                                    <input type="password" id="login-password" placeholder="Password" required>
+                                    <span class="icon_lock"></span>
+                                </div>
+                                <button type="submit" class="site-btn" id="login-btn">Login Now</button>
+                            </form>
+                            <a href="#" class="forget_pass">Forgot Your Password?</a>
+                        </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="login__social__links">
-                        <h3>Login With:</h3>
-                        <ul>
-                            <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With Facebook</a>
-                            </li>
-                            <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-                            <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a></li>
-                        </ul>
+                    <div class="login__register">
+                        <h3>Dont’t Have An Account?</h3>
+                        <a href="signup.html" class="primary-btn">Register Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="login__social">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="login__social__links">
+                            <span>or</span>
+                            <ul>
+                                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
+                                Facebook</a></li>
+                                <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
+                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Signup Section End -->
+    <!-- Login Section End -->
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -151,11 +160,10 @@
                             <li class="active"><a href="./index.html">Homepage</a></li>
                             <li><a href="./categories.html">Categories</a></li>
                             <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
+                            <li><a href="./contacts.html">Contacts</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3">
 
 
                   </div>
@@ -184,7 +192,47 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('login-alert');
+            const loginBtn = document.getElementById('login-btn');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
 
+            alertBox.style.display = 'none';
+            loginBtn.textContent = 'Logging in...';
+            loginBtn.disabled = true;
+
+            try {
+                const res = await API.auth.login(email, password);
+                if (res.success) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#28a745';
+                    alertBox.style.color = '#ffffff';
+                    alertBox.textContent = '✅ ' + res.message + ' Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1200);
+                } else {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#dc3545';
+                    alertBox.style.color = '#ffffff';
+                    alertBox.textContent = '❌ ' + (res.message || 'Login failed.');
+                    loginBtn.textContent = 'Login Now';
+                    loginBtn.disabled = false;
+                }
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#dc3545';
+                alertBox.style.color = '#ffffff';
+                alertBox.textContent = '❌ Unable to connect to server. Please ensure backend is running.';
+                loginBtn.textContent = 'Login Now';
+                loginBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 
 </html>
