@@ -118,15 +118,107 @@ const API = {
     }
 };
 
-// Auto-update header profile widget when logged in
+// Auto-update header profile widget and auth state when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     const user = API.auth.getUser();
-    const profileLink = document.querySelector('.header__right a[href*="login.html"]');
+    const headerRight = document.querySelector('.header__right');
     
-    if (user && profileLink) {
-        profileLink.setAttribute('title', `Logged in as ${user.username}`);
-        profileLink.innerHTML = `<span class="icon_profile" style="color: #e53637;"></span>`;
+    if (headerRight) {
+        const oldProfileLink = headerRight.querySelector('a[href*="login.html"], .user-profile-menu');
+        
+        if (user) {
+            const firstLetter = (user.username || 'U').charAt(0).toUpperCase();
+            const roleName = user.role === 'admin' ? 'Admin' : 'VIP Member';
+            
+            const profileMenuHtml = `
+                <div class="user-profile-menu" id="user-profile-menu">
+                    <button class="user-profile-btn" id="user-profile-toggle" type="button">
+                        <span class="user-avatar-circle">${firstLetter}</span>
+                        <span class="user-profile-name">${user.username}</span>
+                        <span class="arrow_carrot-down" style="font-size: 12px;"></span>
+                    </button>
+                    <div class="user-dropdown-card">
+                        <div class="user-dropdown-header">
+                            <div class="user-avatar-circle">${firstLetter}</div>
+                            <div class="user-dropdown-info">
+                                <h5 class="user-dropdown-name">${user.username}</h5>
+                                <p class="user-dropdown-email">${user.email}</p>
+                                <span class="user-role-badge">${roleName}</span>
+                            </div>
+                        </div>
+                        <ul class="user-dropdown-links">
+                            <li><a href="categories.html"><i class="fa fa-film"></i> Anime Catalog</a></li>
+                            <li><a href="contacts.html"><i class="fa fa-envelope"></i> Contact Support</a></li>
+                            <li><a href="javascript:void(0)" class="logout-link" id="header-logout-btn"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            if (oldProfileLink) {
+                oldProfileLink.outerHTML = profileMenuHtml;
+            } else {
+                headerRight.insertAdjacentHTML('beforeend', profileMenuHtml);
+            }
+
+            // Click listener for logout
+            const logoutBtn = document.getElementById('header-logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    API.auth.logout();
+                });
+            }
+
+            // Click toggle on mobile/touch
+            const menuToggle = document.getElementById('user-profile-toggle');
+            const menuContainer = document.getElementById('user-profile-menu');
+            if (menuToggle && menuContainer) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    menuContainer.classList.toggle('active');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!menuContainer.contains(e.target)) {
+                        menuContainer.classList.remove('active');
+                    }
+                });
+            }
+        }
+    }
+
+    // Handle Already Logged In State on login.html and signup.html
+    const isAuthPage = window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html');
+    if (isAuthPage && user) {
+        const loginContainer = document.querySelector('.login.spad .container, .signup.spad .container');
+        if (loginContainer) {
+            const firstLetter = (user.username || 'U').charAt(0).toUpperCase();
+            loginContainer.innerHTML = `
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="already-logged-card">
+                            <div class="already-logged-avatar">${firstLetter}</div>
+                            <h4>Welcome back, ${user.username}!</h4>
+                            <p>You are currently signed in with <strong>${user.email}</strong>.</p>
+                            <div class="already-logged-actions">
+                                <a href="index.html" class="primary-btn"><i class="fa fa-home"></i> Go to Homepage</a>
+                                <a href="categories.html" class="site-btn" style="background: #00bcd4;"><i class="fa fa-film"></i> Browse Anime</a>
+                                <button type="button" class="site-btn" id="page-logout-btn" style="background: #e53637;"><i class="fa fa-sign-out"></i> Log Out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const pageLogoutBtn = document.getElementById('page-logout-btn');
+            if (pageLogoutBtn) {
+                pageLogoutBtn.addEventListener('click', () => {
+                    API.auth.logout();
+                });
+            }
+        }
     }
 });
 
 window.API = API;
+
