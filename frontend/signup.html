@@ -195,6 +195,7 @@
             const username = document.getElementById('signup-username').value;
             const password = document.getElementById('signup-password').value;
 
+            alertBox.className = 'form-alert';
             alertBox.style.display = 'none';
             signupBtn.textContent = 'Creating Account...';
             signupBtn.disabled = true;
@@ -202,26 +203,23 @@
             try {
                 const res = await API.auth.register(username, email, password);
                 if (res.success) {
+                    alertBox.className = 'form-alert form-alert-success';
                     alertBox.style.display = 'block';
-                    alertBox.style.background = '#28a745';
-                    alertBox.style.color = '#ffffff';
-                    alertBox.textContent = '🎉 ' + res.message + ' Redirecting to homepage...';
+                    alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + res.message + ' Redirecting to homepage...';
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
                 } else {
+                    alertBox.className = 'form-alert form-alert-error';
                     alertBox.style.display = 'block';
-                    alertBox.style.background = '#dc3545';
-                    alertBox.style.color = '#ffffff';
-                    alertBox.textContent = '❌ ' + (res.message || 'Registration failed.');
+                    alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + (res.message || 'Registration failed.');
                     signupBtn.textContent = 'Sign Up Now';
                     signupBtn.disabled = false;
                 }
             } catch (err) {
+                alertBox.className = 'form-alert form-alert-error';
                 alertBox.style.display = 'block';
-                alertBox.style.background = '#dc3545';
-                alertBox.style.color = '#ffffff';
-                alertBox.textContent = '❌ Unable to connect to server. Please ensure backend is running.';
+                alertBox.innerHTML = '<i class="fa fa-exclamation-triangle"></i> Unable to connect to server. Please ensure backend is running.';
                 signupBtn.textContent = 'Sign Up Now';
                 signupBtn.disabled = false;
             }
