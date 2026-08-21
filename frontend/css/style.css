@@ -33,9 +33,10 @@
 
 html,
 body {
-	height: 100%;
+	min-height: 100%;
 	font-family: "Mulish", sans-serif;
 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	background: #0b0c2a;
 }
 
@@ -460,15 +461,40 @@ body.light-mode .search-live-empty {
 }
 
 /*---------------------
-  Header
+  Header (Sticky & Smooth Glassmorphic)
 -----------------------*/
 
 .header {
-	background: #070720;
+	position: -webkit-sticky !important;
+	position: sticky !important;
+	top: 0 !important;
+	left: 0;
+	width: 100%;
+	z-index: 9999 !important;
+	background: rgba(7, 7, 32, 0.94);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+	transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	            background 0.3s ease,
+	            box-shadow 0.3s ease,
+	            border-color 0.3s ease;
+}
+
+.header.header-scrolled {
+	background: rgba(7, 7, 32, 0.98);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+	border-bottom-color: rgba(229, 54, 55, 0.3);
 }
 
 .header__logo {
 	padding: 20px 0 17px;
+	transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header.header-scrolled .header__logo {
+	padding: 13px 0 11px;
 }
 
 .header__logo a {
@@ -2587,9 +2613,13 @@ body.light-mode .anime__details__btn .follow-btn.active-watchlist {
 		overflow: hidden;
 	}
 	.header {
-		position: relative;
-		padding: 14px 0;
-		background: #070720;
+		position: -webkit-sticky !important;
+		position: sticky !important;
+		top: 0 !important;
+		left: 0;
+		width: 100%;
+		z-index: 9999 !important;
+		padding: 12px 0;
 	}
 	.header .container {
 		position: relative;
@@ -2698,6 +2728,9 @@ body.light-mode .anime__details__btn .follow-btn.active-watchlist {
 		top: calc(100% + 12px) !important;
 		width: calc(100% - 30px) !important;
 		max-width: 100% !important;
+		max-height: calc(100vh - 90px) !important;
+		overflow-y: auto !important;
+		-webkit-overflow-scrolling: touch !important;
 		background: #0b0c2a !important;
 		border: 1px solid rgba(229, 54, 55, 0.4) !important;
 		border-radius: 12px !important;
@@ -3176,9 +3209,17 @@ body.light-mode .signup {
 
 /* Header in Light Mode */
 body.light-mode .header {
-	background: #ffffff !important;
-	border-bottom: 1px solid #e2e8f0;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+	background: rgba(255, 255, 255, 0.92) !important;
+	backdrop-filter: blur(14px) !important;
+	-webkit-backdrop-filter: blur(14px) !important;
+	border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+body.light-mode .header.header-scrolled {
+	background: rgba(255, 255, 255, 0.98) !important;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+	border-bottom-color: rgba(229, 54, 55, 0.3) !important;
 }
 
 /* Logo Protection in Light Mode (Pill background so white "Ani" text is 100% visible) */
