@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { addReview } = require('../controllers/reviewController');
-const { authenticateToken } = require('../middleware/authMiddleware');
+const { getReviewsByAnime, addReview } = require('../controllers/reviewController');
+const { protect } = require('../middleware/authMiddleware');
 
-router.post('/:animeId', authenticateToken, addReview);
+router.get('/:animeId', getReviewsByAnime);
+router.post('/:animeId', protect, addReview);
 
 module.exports = router;

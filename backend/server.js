@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const animeRoutes = require('./routes/animeRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const watchlistRoutes = require('./routes/watchlistRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/anime', animeRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/watchlist', watchlistRoutes);
 
 // Serve Frontend Static Files
 const frontendPath = path.join(__dirname, '../frontend');

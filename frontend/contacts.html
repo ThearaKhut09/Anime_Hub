@@ -105,7 +105,7 @@
         </section>
         <section class="contact-form">
             <h2>Contact Form</h2>
-            <div id="contact-alert" style="display: none; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 14px;"></div>
+            <div id="contact-alert" class="form-alert"></div>
             <form id="contact-form">
                 <div class="form-group">
                     <label for="name">Name:</label>
@@ -184,6 +184,7 @@
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
+            alertBox.className = 'form-alert';
             alertBox.style.display = 'none';
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
@@ -191,22 +192,19 @@
             try {
                 const res = await API.contacts.send(name, email, message);
                 if (res.success) {
+                    alertBox.className = 'form-alert form-alert-success';
                     alertBox.style.display = 'block';
-                    alertBox.style.background = '#28a745';
-                    alertBox.style.color = '#ffffff';
-                    alertBox.textContent = '✅ ' + res.message;
+                    alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + res.message;
                     document.getElementById('contact-form').reset();
                 } else {
+                    alertBox.className = 'form-alert form-alert-error';
                     alertBox.style.display = 'block';
-                    alertBox.style.background = '#dc3545';
-                    alertBox.style.color = '#ffffff';
-                    alertBox.textContent = '❌ ' + (res.message || 'Failed to send message.');
+                    alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + (res.message || 'Failed to send message.');
                 }
             } catch (err) {
+                alertBox.className = 'form-alert form-alert-error';
                 alertBox.style.display = 'block';
-                alertBox.style.background = '#dc3545';
-                alertBox.style.color = '#ffffff';
-                alertBox.textContent = '❌ Unable to connect to server. Please ensure backend is running.';
+                alertBox.innerHTML = '<i class="fa fa-exclamation-triangle"></i> Unable to connect to server. Please ensure backend is running.';
             } finally {
                 submitBtn.textContent = 'Send Message';
                 submitBtn.disabled = false;
