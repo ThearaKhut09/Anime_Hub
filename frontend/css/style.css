@@ -3431,19 +3431,31 @@ body.light-mode .product__item__text ul li {
 }
 
 /* Sidebar in Light Mode */
-body.light-mode .product__sidebar__comment__item__text h5 a,
-body.light-mode .product__sidebar__view__item h5 a {
+body.light-mode .product__sidebar__comment__item__text h5 a {
 	color: #1a202c !important;
 	font-weight: 700;
 }
 
-body.light-mode .product__sidebar__comment__item__text h5 a:hover,
-body.light-mode .product__sidebar__view__item h5 a:hover {
+body.light-mode .product__sidebar__comment__item__text h5 a:hover {
 	color: #e53637 !important;
 }
 
-body.light-mode .product__sidebar__comment__item__text span,
-body.light-mode .product__sidebar__view__item .ep {
+/* Top Views card titles are overlaid on the poster artwork, so unlike the
+   plain-text sidebar items they must stay white in light mode. */
+body.light-mode .product__sidebar__view__item h5 a {
+	color: #ffffff !important;
+	font-weight: 700;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+}
+
+body.light-mode .product__sidebar__view__item h5 a:hover {
+	color: #e53637 !important;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+}
+
+/* The "18 / ?" episode chip is white text on a red badge - it must keep its
+   white color in light mode (only the comment label below is plain text). */
+body.light-mode .product__sidebar__comment__item__text span {
 	color: #718096;
 }
 
