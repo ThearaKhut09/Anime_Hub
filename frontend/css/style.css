@@ -3761,4 +3761,30 @@ body.light-mode #admin-anime-search {
 	color: #1a202c !important;
 }
 
-
+
+/* ================= Mobile-Only Fixes (phones <= 575.98px) =================
+   Nothing here affects tablets or desktops. */
+@media (max-width: 575.98px) {
+
+	/* Hide the floating light/dark toggle in the header on phones.
+	   Theme switching stays available inside the MENU (Theme Mode row). */
+	.header__right .theme-toggle-btn {
+		display: none !important;
+	}
+
+	/* Hero: the artwork has the anime title painted into its bottom edge.
+	   On phones the cover-crop zooms it behind the CTA, so lift the text
+	   block higher and give the baked-in title its own clear zone. */
+	.hero__items {
+		padding: 180px 0 120px 20px;
+	}
+
+	.hero__text h2 {
+		font-size: 34px;
+		line-height: 44px;
+	}
+
+	.hero__text p {
+		margin-bottom: 26px;
+	}
+}
