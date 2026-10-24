@@ -6,6 +6,15 @@ const API_BASE_URL = (window.location.port === '5000')
     ? '/api'
     : `http://${window.location.hostname || 'localhost'}:5000/api`;
 
+// Escape untrusted values before injecting them into HTML
+const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+window.escapeHtml = escapeHtml;
+
 const API = {
     // Auth Helpers
     auth: {
@@ -103,7 +112,7 @@ const API = {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ comment, rating: parseInt(rating, 10) || 5 })
+                body: JSON.stringify({ comment, rating: parseInt(rating, 10) || 10 })
             });
             return await response.json();
         }
@@ -319,15 +328,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="user-profile-menu" id="user-profile-menu">
                 <button class="user-profile-btn" id="user-profile-toggle" type="button">
                     <span class="user-avatar-circle">${firstLetter}</span>
-                    <span class="user-profile-name">${user.username}</span>
+                    <span class="user-profile-name">${escapeHtml(user.username)}</span>
                     <span class="arrow_carrot-down" style="font-size: 12px;"></span>
                 </button>
                 <div class="user-dropdown-card">
                     <div class="user-dropdown-header">
                         <div class="user-avatar-circle">${firstLetter}</div>
                         <div class="user-dropdown-info">
-                            <h5 class="user-dropdown-name">${user.username}</h5>
-                            <p class="user-dropdown-email">${user.email}</p>
+                            <h5 class="user-dropdown-name">${escapeHtml(user.username)}</h5>
+                            <p class="user-dropdown-email">${escapeHtml(user.email)}</p>
                             <span class="user-role-badge">${roleName}</span>
                         </div>
                     </div>
@@ -389,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="mobile-user-card">
                             <span class="user-avatar-circle">${firstLetter}</span>
                             <div class="mobile-user-info">
-                                <strong>${user.username}</strong>
+                                <strong>${escapeHtml(user.username)}</strong>
                                 <span>${roleName}</span>
                             </div>
                         </div>
@@ -452,8 +461,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="col-lg-6">
                         <div class="already-logged-card">
                             <div class="already-logged-avatar">${firstLetter}</div>
-                            <h4>Welcome back, ${user.username}!</h4>
-                            <p>You are currently signed in with <strong>${user.email}</strong>.</p>
+                            <h4>Welcome back, ${escapeHtml(user.username)}!</h4>
+                            <p>You are currently signed in with <strong>${escapeHtml(user.email)}</strong>.</p>
                             <div class="already-logged-actions">
                                 <a href="index.html" class="primary-btn"><i class="fa fa-home"></i> Go to Homepage</a>
                                 <a href="categories.html" class="site-btn" style="background: #00bcd4;"><i class="fa fa-film"></i> Browse Anime</a>
@@ -502,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resultsBox.style.display = 'block';
             resultsBox.innerHTML = `
                 <div class="search-live-loading">
-                    <i class="fa fa-spinner fa-spin"></i> Searching anime for "<strong>${query}</strong>"...
+                    <i class="fa fa-spinner fa-spin"></i> Searching anime for "<strong>${escapeHtml(query)}</strong>"...
                 </div>
             `;
 
@@ -511,15 +520,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const res = await API.anime.getAll({ q: query, limit: 6 });
                     if (res.success && res.data && res.data.length > 0) {
                         resultsBox.innerHTML = res.data.map(anime => `
-                            <a href="anime-details.html?id=${anime.id}" class="search-live-item">
-                                <img src="${anime.poster_url}" alt="${anime.title}" class="search-live-thumb" onerror="this.src='img/trending/trend-1.jpg'">
+                            <a href="anime-details.html?id=${encodeURIComponent(anime.id)}" class="search-live-item">
+                                <img src="${escapeHtml(anime.poster_url)}" alt="${escapeHtml(anime.title)}" class="search-live-thumb" onerror="this.src='img/trending/trend-1.jpg'">
                                 <div class="search-live-info">
-                                    <h6 class="search-live-title">${anime.title}</h6>
-                                    <p class="search-live-native">${anime.native_title || ''}</p>
+                                    <h6 class="search-live-title">${escapeHtml(anime.title)}</h6>
+                                    <p class="search-live-native">${escapeHtml(anime.native_title || '')}</p>
                                     <div class="search-live-meta">
-                                        <span class="search-live-type">${anime.type || 'Anime'}</span>
-                                        <span class="search-live-rating"><i class="fa fa-star"></i> ${anime.rating || '9.0'}</span>
-                                        <span class="search-live-genre">${anime.genre ? anime.genre.split(',').slice(0, 2).join(', ') : ''}</span>
+                                        <span class="search-live-type">${escapeHtml(anime.type || 'Anime')}</span>
+                                        <span class="search-live-rating"><i class="fa fa-star"></i> ${escapeHtml(anime.rating || '9.0')}</span>
+                                        <span class="search-live-genre">${escapeHtml(anime.genre ? anime.genre.split(',').slice(0, 2).join(', ') : '')}</span>
                                     </div>
                                 </div>
                             </a>
@@ -527,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         resultsBox.innerHTML = `
                             <div class="search-live-empty">
-                                <i class="fa fa-film"></i> No anime found matching "<strong>${query}</strong>"
+                                <i class="fa fa-film"></i> No anime found matching "<strong>${escapeHtml(query)}</strong>"
                             </div>
                         `;
                     }

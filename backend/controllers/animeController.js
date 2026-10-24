@@ -4,12 +4,12 @@ const { query } = require('../config/db');
 // @desc    Get anime list with filter, search, sort & pagination
 const getAnimeList = async (req, res, next) => {
     try {
-        const { type, genre, q, search, sort = 'recent', limit = 24, page = 1 } = req.query;
-        const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+        const { type, genre, q, search, sort = 'recent' } = req.query;
+        const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 24, 1), 100);
+        const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+        const offset = (page - 1) * limit;
 
-        let sql = `SELECT id, title, native_title, type, genre, synopsis, studio, status, 
-                          poster_url, backdrop_url, rating, views, created_at 
-                   FROM anime WHERE 1=1`;
+        let whereSql = ' WHERE 1=1';
         const params = [];
         let paramIdx = 1;
 
@@ -21,43 +21,46 @@ const getAnimeList = async (req, res, next) => {
                 'live': 'Live Action'
             };
             const mappedType = typeMap[type.toLowerCase()] || type;
-            sql += ` AND LOWER(type) LIKE $${paramIdx++}`;
+            whereSql += ` AND LOWER(type) LIKE $${paramIdx++}`;
             params.push(`%${mappedType.toLowerCase()}%`);
         }
 
         if (genre && genre.toLowerCase() !== 'all') {
-            sql += ` AND LOWER(genre) LIKE $${paramIdx++}`;
+            whereSql += ` AND LOWER(genre) LIKE $${paramIdx++}`;
             params.push(`%${genre.toLowerCase()}%`);
         }
 
         const searchTerm = q || search;
         if (searchTerm) {
-            sql += ` AND (LOWER(title) LIKE $${paramIdx} OR LOWER(native_title) LIKE $${paramIdx} OR LOWER(genre) LIKE $${paramIdx})`;
+            whereSql += ` AND (LOWER(title) LIKE $${paramIdx} OR LOWER(native_title) LIKE $${paramIdx} OR LOWER(genre) LIKE $${paramIdx})`;
             paramIdx++;
             params.push(`%${searchTerm.toLowerCase()}%`);
         }
 
+        // Count with the same filters as the data query
+        const countRes = await query(`SELECT COUNT(*) FROM anime${whereSql}`, [...params]);
+
         // Sorting
+        let orderSql = ' ORDER BY created_at DESC';
         if (sort === 'rating') {
-            sql += ` ORDER BY rating DESC`;
+            orderSql = ' ORDER BY rating DESC';
         } else if (sort === 'views') {
-            sql += ` ORDER BY views DESC`;
+            orderSql = ' ORDER BY views DESC';
         } else if (sort === 'title') {
-            sql += ` ORDER BY title ASC`;
-        } else {
-            sql += ` ORDER BY created_at DESC`;
+            orderSql = ' ORDER BY title ASC';
         }
 
-        sql += ` LIMIT $${paramIdx++} OFFSET $${paramIdx++}`;
-        params.push(parseInt(limit, 10), offset);
+        const sql = `SELECT id, title, native_title, type, genre, synopsis, studio, status, 
+                            poster_url, backdrop_url, rating, views, created_at 
+                     FROM anime${whereSql}${orderSql} LIMIT $${paramIdx++} OFFSET $${paramIdx++}`;
+        const dataParams = [...params, limit, offset];
 
-        const result = await query(sql, params);
-        const countRes = await query('SELECT COUNT(*) FROM anime');
+        const result = await query(sql, dataParams);
 
         res.json({
             success: true,
             total: parseInt(countRes.rows[0].count, 10),
-            page: parseInt(page, 10),
+            page,
             count: result.rows.length,
             data: result.rows
         });

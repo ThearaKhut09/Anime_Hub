@@ -205,14 +205,14 @@
                 if (res.success) {
                     alertBox.className = 'form-alert form-alert-success';
                     alertBox.style.display = 'block';
-                    alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + res.message + ' Redirecting to homepage...';
+                    alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + escapeHtml(res.message) + ' Redirecting to homepage...';
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
                 } else {
                     alertBox.className = 'form-alert form-alert-error';
                     alertBox.style.display = 'block';
-                    alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + (res.message || 'Registration failed.');
+                    alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + escapeHtml(res.message || 'Registration failed.');
                     signupBtn.textContent = 'Sign Up Now';
                     signupBtn.disabled = false;
                 }

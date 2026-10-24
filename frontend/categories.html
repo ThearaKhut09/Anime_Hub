@@ -390,24 +390,24 @@
             container.innerHTML = animeList.map(anime => {
                 const primaryGenre = anime.genre ? anime.genre.split(',')[0].trim() : 'Anime';
                 const formattedViews = Number(anime.views || 9141).toLocaleString();
-                const poster = anime.poster_url || 'img/popular/popular-1.jpg';
+                const poster = String(anime.poster_url || 'img/popular/popular-1.jpg').replace(/["\\]/g, '');
 
                 return `
                     <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
                         <div class="product__item">
-                            <a href="anime-details.html?id=${anime.id}">
-                                <div class="product__item__pic set-bg" style="background-image: url('${poster}'); border-radius: 8px; overflow: hidden;">
-                                    <div class="ep"><i class="fa fa-star text-warning"></i> ${anime.rating || '8.5'}</div>
-                                    <div class="comment"><i class="fa fa-film"></i> ${anime.type || 'TV'}</div>
+                            <a href="anime-details.html?id=${encodeURIComponent(anime.id)}">
+                                <div class="product__item__pic set-bg" style="background-image: url('${escapeHtml(poster)}'); border-radius: 8px; overflow: hidden;">
+                                    <div class="ep"><i class="fa fa-star text-warning"></i> ${escapeHtml(anime.rating || '8.5')}</div>
+                                    <div class="comment"><i class="fa fa-film"></i> ${escapeHtml(anime.type || 'TV')}</div>
                                     <div class="view"><i class="fa fa-eye"></i> ${formattedViews}</div>
                                 </div>
                             </a>
                             <div class="product__item__text">
                                 <ul>
-                                    <li>${anime.status || 'Finished'}</li>
-                                    <li>${primaryGenre}</li>
+                                    <li>${escapeHtml(anime.status || 'Finished')}</li>
+                                    <li>${escapeHtml(primaryGenre)}</li>
                                 </ul>
-                                <h5><a href="anime-details.html?id=${anime.id}">${anime.title}</a></h5>
+                                <h5><a href="anime-details.html?id=${encodeURIComponent(anime.id)}">${escapeHtml(anime.title)}</a></h5>
                             </div>
                         </div>
                     </div>

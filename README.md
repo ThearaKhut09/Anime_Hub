@@ -88,18 +88,30 @@ Your full-stack website will be live at:
 ### Authentication (`/api/auth`)
 - `POST /api/auth/register` - Create a new user account (Username, Email, Password)
 - `POST /api/auth/login` - Authenticate user & retrieve JWT access token
-- `GET /api/auth/me` - Fetch authenticated user profile
+- `GET /api/auth/me` - Fetch authenticated user profile (JWT required)
 
 ### Anime Catalog (`/api/anime`)
-- `GET /api/anime` - Get all anime with optional filters (`?type=movies`, `?genre=action`, `?q=fate`, `?sort=rating`)
+- `GET /api/anime` - Get all anime with optional filters (`?type=movies`, `?genre=action`, `?q=fate`, `?sort=rating`, `?page=1&limit=24`)
 - `GET /api/anime/:id` - Get anime details including episodes and reviews
+- `GET /api/anime/admin/stats` - Dashboard overview stats (Admin only)
 - `POST /api/anime` - Add new anime to catalog (Admin only)
+- `DELETE /api/anime/:id` - Remove an anime from the catalog (Admin only)
+
+### Watchlist (`/api/watchlist`) — all routes require JWT
+- `GET /api/watchlist` - List the signed-in user's saved anime
+- `POST /api/watchlist/:animeId` - Toggle an anime in/out of the watchlist
+- `GET /api/watchlist/check/:animeId` - Check whether an anime is saved
 
 ### Reviews & Comments (`/api/reviews`)
+- `GET /api/reviews/:animeId` - Public list of reviews for an anime
 - `POST /api/reviews/:animeId` - Post a review comment and star rating (JWT required)
+- `GET /api/reviews` - All reviews across the catalog (Admin only)
+- `DELETE /api/reviews/:id` - Delete a review (Admin only)
 
 ### Contact Form (`/api/contacts`)
 - `POST /api/contacts` - Submit a message from the contact page
+- `GET /api/contacts` - List received messages (Admin only)
+- `DELETE /api/contacts/:id` - Delete a message (Admin only)
 
 ---
 

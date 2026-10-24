@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { query } = require('../config/db');
+const { JWT_SECRET, JWT_EXPIRES_IN } = require('../config/jwt');
 
 const generateToken = (user) => {
     return jwt.sign(
         { id: user.id, email: user.email, role: user.role },
-        process.env.JWT_SECRET || 'anime_hub_super_secret_jwt_key_2026_change_in_production',
-        { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN }
     );
 };
 

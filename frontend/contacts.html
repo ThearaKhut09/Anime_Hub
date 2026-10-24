@@ -194,12 +194,12 @@
                 if (res.success) {
                     alertBox.className = 'form-alert form-alert-success';
                     alertBox.style.display = 'block';
-                    alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + res.message;
+                    alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + escapeHtml(res.message);
                     document.getElementById('contact-form').reset();
                 } else {
                     alertBox.className = 'form-alert form-alert-error';
                     alertBox.style.display = 'block';
-                    alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + (res.message || 'Failed to send message.');
+                    alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + escapeHtml(res.message || 'Failed to send message.');
                 }
             } catch (err) {
                 alertBox.className = 'form-alert form-alert-error';

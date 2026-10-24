@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { query } = require('../config/db');
+const { JWT_SECRET } = require('../config/jwt');
 
 const authenticateToken = async (req, res, next) => {
     try {
@@ -10,7 +11,7 @@ const authenticateToken = async (req, res, next) => {
             return res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'anime_hub_super_secret_jwt_key_2026_change_in_production');
+        const decoded = jwt.verify(token, JWT_SECRET);
         
         // Fetch user from DB to ensure user is active
         const userRes = await query('SELECT id, username, email, role, avatar_url FROM users WHERE id = $1', [decoded.id]);

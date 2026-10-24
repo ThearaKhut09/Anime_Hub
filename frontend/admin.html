@@ -22,6 +22,439 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <style>
+        /* ================= Admin Dashboard Styles ================= */
+        .admin-hero {
+            background: linear-gradient(135deg, rgba(229, 54, 55, 0.14), rgba(29, 30, 57, 0.55));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 26px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .admin-hero-chip {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #e53637, #ff5f6d);
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(229, 54, 55, 0.45);
+        }
+
+        .admin-hero h2 {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .admin-hero p {
+            color: #8f9bb7;
+            margin: 4px 0 0;
+            font-size: 14px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, #21224c 0%, #191a3a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(229, 54, 55, 0.45);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+        }
+
+        .stat-icon.red    { background: rgba(229, 54, 55, 0.16);  color: #ff6b6b; box-shadow: inset 0 0 0 1px rgba(229, 54, 55, 0.4); }
+        .stat-icon.cyan   { background: rgba(0, 188, 212, 0.14);  color: #00bcd4; box-shadow: inset 0 0 0 1px rgba(0, 188, 212, 0.4); }
+        .stat-icon.yellow { background: rgba(255, 211, 42, 0.14); color: #ffd32a; box-shadow: inset 0 0 0 1px rgba(255, 211, 42, 0.4); }
+        .stat-icon.green  { background: rgba(46, 213, 115, 0.14); color: #2ed573; box-shadow: inset 0 0 0 1px rgba(46, 213, 115, 0.4); }
+        .stat-icon.purple { background: rgba(171, 99, 250, 0.14); color: #ab63fa; box-shadow: inset 0 0 0 1px rgba(171, 99, 250, 0.4); }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #8f9bb7;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(19px, 2vw, 26px);
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .admin-tabs {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-tabs .nav-link {
+            color: #8f9bb7;
+            font-weight: 700;
+            padding: 13px 22px;
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            background: transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .admin-tabs .nav-link:hover {
+            color: #ffffff;
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .admin-tabs .nav-link.active {
+            color: #ffffff;
+            background: transparent;
+            border-bottom-color: #e53637;
+        }
+
+        .tab-count {
+            display: inline-block;
+            background: rgba(229, 54, 55, 0.18);
+            color: #ff6b6b;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-left: 8px;
+            vertical-align: 1px;
+        }
+
+        .admin-panel {
+            background: #171836;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .admin-panel-head {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .admin-panel-head h5 {
+            color: #ffffff;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .admin-table thead th {
+            background: rgba(0, 0, 0, 0.25);
+            color: #8f9bb7;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 16px;
+            white-space: nowrap;
+        }
+
+        .admin-table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            border-color: rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        .admin-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(229, 54, 55, 0.06);
+        }
+
+        .table-poster {
+            width: 44px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        .pill-red    { background: rgba(229, 54, 55, 0.15);  color: #ff6b6b; border: 1px solid rgba(229, 54, 55, 0.4); }
+        .pill-green  { background: rgba(46, 213, 115, 0.14); color: #2ed573; border: 1px solid rgba(46, 213, 115, 0.4); }
+        .pill-cyan   { background: rgba(0, 188, 212, 0.14);  color: #00bcd4; border: 1px solid rgba(0, 188, 212, 0.4); }
+        .pill-yellow { background: rgba(255, 211, 42, 0.14); color: #ffd32a; border: 1px solid rgba(255, 211, 42, 0.4); }
+
+        .icon-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            display: inline-grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: transparent;
+            color: #cbd5e1;
+            transition: all 0.2s ease;
+            margin-left: 6px;
+            text-decoration: none;
+        }
+
+        .icon-btn:hover { color: #ffffff; }
+
+        .icon-btn.view:hover {
+            background: rgba(0, 188, 212, 0.15);
+            border-color: rgba(0, 188, 212, 0.45);
+            color: #00bcd4;
+        }
+
+        .icon-btn.danger:hover {
+            background: rgba(229, 54, 55, 0.15);
+            border-color: rgba(229, 54, 55, 0.5);
+            color: #ff6b6b;
+        }
+
+        .admin-input {
+            background: #0b0c2a;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            border-radius: 9px;
+            padding: 9px 14px;
+            font-size: 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: rgba(229, 54, 55, 0.6);
+            box-shadow: 0 0 0 3px rgba(229, 54, 55, 0.15);
+            background: #0b0c2a;
+            color: #ffffff;
+        }
+
+        .admin-input::placeholder { color: #5a5f85; }
+
+        /* Bootstrap's .form-control forces height: calc(1.5em + .75rem + 2px)
+           = 35px on real inputs, while the nice-select divs are 42px —
+           normalize all modal inputs to the same 42px with centered text. */
+        .admin-modal input.form-control {
+            height: 42px;
+            padding: 0 14px;
+            line-height: 40px;
+        }
+
+        select.admin-input option { background: #0b0c2a; color: #ffffff; }
+
+        /* Dark theme for nice-select-transformed dropdowns inside the modal.
+           Note: the plugin copies the original select's classes onto the div,
+           so .admin-input's vertical padding leaks in — reset it explicitly
+           or the text sits below center inside the fixed 42px height. */
+        .admin-modal .nice-select {
+            background: #0b0c2a;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 9px;
+            color: #ffffff;
+            height: 42px;
+            line-height: 40px;
+            padding: 0 30px 0 14px;
+            font-size: 14px;
+            width: 100%;
+            float: none;
+            box-sizing: border-box;
+        }
+
+        .admin-modal .nice-select .list {
+            background: #131433;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 9px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .admin-modal .nice-select .option:hover,
+        .admin-modal .nice-select .option.selected {
+            background: rgba(229, 54, 55, 0.15);
+            color: #ffffff;
+        }
+
+        .admin-modal .nice-select:after {
+            border-bottom: 2px solid #8f9bb7;
+            border-right: 2px solid #8f9bb7;
+        }
+
+        .admin-btn-primary {
+            background: linear-gradient(135deg, #e53637 0%, #ff5252 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 26px;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(229, 54, 55, 0.35);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(229, 54, 55, 0.45);
+            color: #ffffff;
+        }
+
+        .admin-btn-primary:disabled {
+            opacity: 0.7;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .admin-btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            padding: 11px 20px;
+            font-weight: 700;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-btn-ghost:hover {
+            border-color: rgba(229, 54, 55, 0.5);
+            color: #ffffff;
+            background: rgba(229, 54, 55, 0.08);
+        }
+
+        .form-label-admin {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #a0aec0;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* Keep the modal above the sticky header (z-index 9999 in style.css),
+           otherwise the modal header slides underneath it. */
+        .modal-backdrop { z-index: 99999; }
+        .modal.admin-modal { z-index: 100000; }
+
+        /* Center the dialog when it fits the viewport, but anchor it to the
+           top when it is taller - plain "center" clips the title bar and
+           makes it unreachable by scrolling. */
+        .admin-modal .modal-dialog-centered {
+            align-items: center;
+            align-items: safe center;
+        }
+
+        .admin-modal .modal-content {
+            background: #131433;
+            border: 1px solid rgba(229, 54, 55, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .admin-modal .modal-header,
+        .admin-modal .modal-footer {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-modal .close {
+            color: #ffffff;
+            opacity: 0.8;
+            text-shadow: none;
+        }
+
+        .admin-modal .close:hover { opacity: 1; }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: #8f9bb7;
+        }
+
+        .empty-state i {
+            font-size: 34px;
+            margin-bottom: 12px;
+            display: block;
+            color: #3d4068;
+        }
+
+        .denied-card {
+            background: linear-gradient(180deg, #21224c, #191a3a);
+            border: 1px solid rgba(229, 54, 55, 0.4);
+            border-radius: 18px;
+            max-width: 520px;
+            margin: 48px auto;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .denied-card i.shield {
+            font-size: 52px;
+            color: #e53637;
+            display: block;
+            margin-bottom: 18px;
+            text-shadow: 0 0 30px rgba(229, 54, 55, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .admin-hero { padding: 20px; }
+            .admin-tabs .nav-link { padding: 11px 14px; font-size: 14px; }
+            .admin-table { font-size: 13px; }
+        }
+    </style>
 </head>
 
 <body>
@@ -92,95 +525,102 @@
     <!-- Admin Main Section -->
     <section class="spad" style="min-height: 70vh;">
         <div class="container" id="admin-container">
-            <!-- Access Denied or Loading State will be replaced if unauthorized -->
+
+            <!-- Auth Guard (replaced with Access Denied if unauthorized) -->
             <div id="admin-auth-guard" class="text-center py-5">
-                <i class="fa fa-spinner fa-spin fa-3x text-danger mb-3"></i>
-                <h4 class="text-white">Verifying Admin Credentials...</h4>
+                <i class="fa fa-spinner fa-spin fa-3x" style="color: #e53637;"></i>
+                <h4 class="text-white mt-3">Verifying Admin Credentials...</h4>
             </div>
 
-            <!-- Main Admin Dashboard Content (Shown only for Admin) -->
+            <!-- Main Admin Dashboard Content (shown only for verified Admins) -->
             <div id="admin-content" style="display: none;">
-                <!-- Header Banner -->
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-2 border-bottom border-secondary">
-                    <div>
-                        <h2 class="text-white font-weight-bold" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px;">
-                            👑 Management Dashboard
-                        </h2>
-                        <p class="text-muted mb-0">Control anime catalog, user reviews, and contact messages in real-time.</p>
+
+                <!-- Hero Header -->
+                <div class="admin-hero">
+                    <div class="d-flex align-items-center" style="gap: 18px;">
+                        <div class="admin-hero-chip"><i class="fa fa-shield"></i></div>
+                        <div>
+                            <h2>Management Dashboard</h2>
+                            <p id="admin-welcome-line">Control the anime catalog, user reviews, and contact messages in real-time.</p>
+                        </div>
                     </div>
-                    <div>
-                        <button class="primary-btn" id="open-add-anime-modal" style="background: linear-gradient(135deg, #e53637 0%, #ff4b4b 100%); border: none; border-radius: 8px; padding: 12px 24px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 54, 55, 0.4);">
-                            <i class="fa fa-plus-circle mr-1"></i> Add New Anime
+                    <div class="d-flex flex-wrap" style="gap: 10px;">
+                        <button class="admin-btn-ghost" id="refresh-dashboard-btn" title="Reload all data">
+                            <i class="fa fa-refresh"></i> Refresh
+                        </button>
+                        <button class="admin-btn-primary" id="open-add-anime-modal">
+                            <i class="fa fa-plus-circle"></i> Add New Anime
                         </button>
                     </div>
                 </div>
 
                 <!-- Global Feedback Alert -->
-                <div id="admin-global-alert" class="form-alert mb-4"></div>
+                <div id="admin-global-alert" class="form-alert mb-4" style="display: none;"></div>
 
-                <!-- 4 Overview Stats Cards -->
-                <div class="row mb-5" id="stats-row">
-                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
-                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(229, 54, 55, 0.15); border: 1px solid rgba(229, 54, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ff6b6b;">
-                                <i class="fa fa-film"></i>
-                            </div>
+                <!-- 5 Overview Stats Cards -->
+                <div class="row mb-4" id="stats-row">
+                    <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon red"><i class="fa fa-film"></i></div>
                             <div>
-                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Total Anime</h6>
-                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-anime">0</h3>
+                                <div class="stat-label">Anime</div>
+                                <h3 class="stat-value" id="stat-total-anime">–</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
-                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(0, 188, 212, 0.15); border: 1px solid rgba(0, 188, 212, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #00bcd4;">
-                                <i class="fa fa-eye"></i>
-                            </div>
+                    <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><i class="fa fa-users"></i></div>
                             <div>
-                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Total Views</h6>
-                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-views">0</h3>
+                                <div class="stat-label">Users</div>
+                                <h3 class="stat-value" id="stat-total-users">–</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
-                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(255, 211, 42, 0.15); border: 1px solid rgba(255, 211, 42, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffd32a;">
-                                <i class="fa fa-star"></i>
-                            </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon cyan"><i class="fa fa-eye"></i></div>
                             <div>
-                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">User Reviews</h6>
-                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-reviews">0</h3>
+                                <div class="stat-label">Views</div>
+                                <h3 class="stat-value" id="stat-total-views">–</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                        <div class="admin-stat-card" style="background: #1d1e39; padding: 24px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 16px;">
-                            <div style="width: 54px; height: 54px; border-radius: 12px; background: rgba(46, 213, 115, 0.15); border: 1px solid rgba(46, 213, 115, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #2ed573;">
-                                <i class="fa fa-envelope"></i>
-                            </div>
+                    <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon yellow"><i class="fa fa-star"></i></div>
                             <div>
-                                <h6 style="color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Inquiries</h6>
-                                <h3 style="color: #ffffff; font-weight: 700; margin: 0;" id="stat-total-messages">0</h3>
+                                <div class="stat-label">Reviews</div>
+                                <h3 class="stat-value" id="stat-total-reviews">–</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fa fa-envelope"></i></div>
+                            <div>
+                                <div class="stat-label">Inquiries</div>
+                                <h3 class="stat-value" id="stat-total-messages">–</h3>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Navigation Tabs -->
-                <ul class="nav nav-tabs admin-tabs mb-4" id="adminTabs" role="tablist" style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                <ul class="nav nav-tabs admin-tabs mb-4" id="adminTabs" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active font-weight-bold" id="anime-tab" data-toggle="tab" href="#tab-anime" role="tab" style="color: #ffffff; padding: 12px 24px; border: none; border-bottom: 3px solid #e53637; background: transparent;">
-                            <i class="fa fa-film mr-2"></i> Anime Catalog
+                        <a class="nav-link active" id="anime-tab" data-toggle="tab" href="#tab-anime" role="tab">
+                            <i class="fa fa-film mr-1"></i> Anime Catalog <span class="tab-count" id="tab-count-anime">0</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font-weight-bold" id="reviews-tab" data-toggle="tab" href="#tab-reviews" role="tab" style="color: #a0aec0; padding: 12px 24px; border: none; background: transparent;">
-                            <i class="fa fa-comments mr-2"></i> User Reviews
+                        <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#tab-reviews" role="tab">
+                            <i class="fa fa-comments mr-1"></i> User Reviews <span class="tab-count" id="tab-count-reviews">0</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font-weight-bold" id="messages-tab" data-toggle="tab" href="#tab-messages" role="tab" style="color: #a0aec0; padding: 12px 24px; border: none; background: transparent;">
-                            <i class="fa fa-envelope mr-2"></i> Contact Messages
+                        <a class="nav-link" id="messages-tab" data-toggle="tab" href="#tab-messages" role="tab">
+                            <i class="fa fa-envelope mr-1"></i> Contact Messages <span class="tab-count" id="tab-count-messages">0</span>
                         </a>
                     </li>
                 </ul>
@@ -189,27 +629,27 @@
                 <div class="tab-content" id="adminTabsContent">
                     <!-- Tab 1: Anime Catalog -->
                     <div class="tab-pane fade show active" id="tab-anime" role="tabpanel">
-                        <div style="background: #1d1e39; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                            <div class="p-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom border-secondary">
-                                <h5 class="text-white mb-0 font-weight-bold">All Anime Titles</h5>
-                                <input type="text" id="admin-anime-search" placeholder="Search catalog..." style="max-width: 250px; background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 6px 14px; border-radius: 6px; font-size: 14px;">
+                        <div class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h5>All Anime Titles</h5>
+                                <input type="text" id="admin-anime-search" class="admin-input" placeholder="Search catalog..." style="max-width: 250px;">
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                                <table class="table admin-table mb-0">
                                     <thead>
-                                        <tr style="background: rgba(0,0,0,0.2); border-bottom: 2px solid rgba(255,255,255,0.1); color: #a0aec0; font-size: 13px; text-transform: uppercase;">
-                                            <th style="padding: 16px;">Poster</th>
-                                            <th style="padding: 16px;">Title & Japanese</th>
-                                            <th style="padding: 16px;">Type / Genre</th>
-                                            <th style="padding: 16px;">Rating</th>
-                                            <th style="padding: 16px;">Views</th>
-                                            <th style="padding: 16px;">Status</th>
-                                            <th style="padding: 16px; text-align: right;">Action</th>
+                                        <tr>
+                                            <th>Poster</th>
+                                            <th>Title & Japanese</th>
+                                            <th>Type / Genre</th>
+                                            <th>Rating</th>
+                                            <th>Views</th>
+                                            <th>Status</th>
+                                            <th class="text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="admin-anime-tbody">
                                         <tr>
-                                            <td colspan="7" class="text-center py-4 text-muted">
+                                            <td colspan="7" class="text-center py-4" style="color: #8f9bb7;">
                                                 <i class="fa fa-spinner fa-spin"></i> Loading anime list...
                                             </td>
                                         </tr>
@@ -221,25 +661,26 @@
 
                     <!-- Tab 2: User Reviews -->
                     <div class="tab-pane fade" id="tab-reviews" role="tabpanel">
-                        <div style="background: #1d1e39; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                            <div class="p-3 border-bottom border-secondary">
-                                <h5 class="text-white mb-0 font-weight-bold">Recent User Reviews</h5>
+                        <div class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h5>Recent User Reviews</h5>
+                                <span style="color: #8f9bb7; font-size: 13px;">Latest 50 across all titles</span>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                                <table class="table admin-table mb-0">
                                     <thead>
-                                        <tr style="background: rgba(0,0,0,0.2); border-bottom: 2px solid rgba(255,255,255,0.1); color: #a0aec0; font-size: 13px; text-transform: uppercase;">
-                                            <th style="padding: 16px;">User</th>
-                                            <th style="padding: 16px;">Anime Title</th>
-                                            <th style="padding: 16px;">Rating</th>
-                                            <th style="padding: 16px;">Review Comment</th>
-                                            <th style="padding: 16px;">Date</th>
-                                            <th style="padding: 16px; text-align: right;">Action</th>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Anime Title</th>
+                                            <th>Rating</th>
+                                            <th>Review Comment</th>
+                                            <th>Date</th>
+                                            <th class="text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="admin-reviews-tbody">
                                         <tr>
-                                            <td colspan="6" class="text-center py-4 text-muted">
+                                            <td colspan="6" class="text-center py-4" style="color: #8f9bb7;">
                                                 <i class="fa fa-spinner fa-spin"></i> Loading reviews...
                                             </td>
                                         </tr>
@@ -251,24 +692,25 @@
 
                     <!-- Tab 3: Contact Messages -->
                     <div class="tab-pane fade" id="tab-messages" role="tabpanel">
-                        <div style="background: #1d1e39; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                            <div class="p-3 border-bottom border-secondary">
-                                <h5 class="text-white mb-0 font-weight-bold">Inquiries & Feedback</h5>
+                        <div class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h5>Inquiries & Feedback</h5>
+                                <span style="color: #8f9bb7; font-size: 13px;">Submitted via the contact page</span>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                                <table class="table admin-table mb-0">
                                     <thead>
-                                        <tr style="background: rgba(0,0,0,0.2); border-bottom: 2px solid rgba(255,255,255,0.1); color: #a0aec0; font-size: 13px; text-transform: uppercase;">
-                                            <th style="padding: 16px;">Sender Name</th>
-                                            <th style="padding: 16px;">Email</th>
-                                            <th style="padding: 16px;">Message</th>
-                                            <th style="padding: 16px;">Received Date</th>
-                                            <th style="padding: 16px; text-align: right;">Action</th>
+                                        <tr>
+                                            <th>Sender Name</th>
+                                            <th>Email</th>
+                                            <th>Message</th>
+                                            <th>Received Date</th>
+                                            <th class="text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="admin-messages-tbody">
                                         <tr>
-                                            <td colspan="5" class="text-center py-4 text-muted">
+                                            <td colspan="5" class="text-center py-4" style="color: #8f9bb7;">
                                                 <i class="fa fa-spinner fa-spin"></i> Loading messages...
                                             </td>
                                         </tr>
@@ -283,36 +725,36 @@
     </section>
 
     <!-- Modal Dialog: Add New Anime -->
-    <div class="modal fade" id="addAnimeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade admin-modal" id="addAnimeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content" style="background: #131433; border: 1px solid rgba(229, 54, 55, 0.4); border-radius: 14px; box-shadow: 0 25px 60px rgba(0,0,0,0.9);">
-                <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 25px;">
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 20px 25px;">
                     <h5 class="modal-title text-white font-weight-bold" style="font-family: 'Oswald', sans-serif;">
-                        <i class="fa fa-plus-circle text-danger mr-2"></i> Add New Anime
+                        <i class="fa fa-plus-circle" style="color: #e53637;"></i> Add New Anime
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 0.8;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form id="add-anime-form">
                     <div class="modal-body" style="padding: 25px;">
-                        <div id="modal-alert" class="form-alert"></div>
+                        <div id="modal-alert" class="form-alert" style="display: none;"></div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Anime Title *</label>
-                                <input type="text" id="anime-form-title" class="form-control" placeholder="e.g. Solo Leveling" required style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-title">Anime Title *</label>
+                                <input type="text" id="anime-form-title" class="form-control admin-input" placeholder="e.g. Solo Leveling" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Native / Japanese Title</label>
-                                <input type="text" id="anime-form-native" class="form-control" placeholder="e.g. 俺だけレベルアップな件" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-native">Native / Japanese Title</label>
+                                <input type="text" id="anime-form-native" class="form-control admin-input" placeholder="e.g. 俺だけレベルアップな件">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Type *</label>
-                                <select id="anime-form-type" class="form-control" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-type">Type *</label>
+                                <select id="anime-form-type" class="form-control admin-input">
                                     <option value="TV Series">TV Series</option>
                                     <option value="Movie">Movie</option>
                                     <option value="OVA">OVA / Special</option>
@@ -320,50 +762,50 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Status *</label>
-                                <select id="anime-form-status" class="form-control" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-status">Status *</label>
+                                <select id="anime-form-status" class="form-control admin-input">
                                     <option value="Airing">Airing</option>
                                     <option value="Completed">Completed</option>
                                     <option value="Upcoming">Upcoming</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Rating (0 - 10)</label>
-                                <input type="number" step="0.1" min="1" max="10" id="anime-form-rating" class="form-control" value="8.5" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-rating">Rating (0 - 10)</label>
+                                <input type="number" step="0.1" min="0" max="10" id="anime-form-rating" class="form-control admin-input" value="8.5">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Genres (comma separated) *</label>
-                                <input type="text" id="anime-form-genre" class="form-control" placeholder="Action, Adventure, Fantasy" required style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-genre">Genres (comma separated) *</label>
+                                <input type="text" id="anime-form-genre" class="form-control admin-input" placeholder="Action, Adventure, Fantasy" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Studio</label>
-                                <input type="text" id="anime-form-studio" class="form-control" placeholder="e.g. Ufotable / MAPPA" style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-studio">Studio</label>
+                                <input type="text" id="anime-form-studio" class="form-control admin-input" placeholder="e.g. Ufotable / MAPPA">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Poster URL *</label>
-                                <input type="text" id="anime-form-poster" class="form-control" placeholder="img/trending/trend-1.jpg or https://..." required style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-poster">Poster URL *</label>
+                                <input type="text" id="anime-form-poster" class="form-control admin-input" placeholder="img/trending/trend-1.jpg or https://..." required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="text-white font-weight-bold" style="font-size: 13px;">Backdrop Banner URL</label>
-                                <input type="text" id="anime-form-backdrop" class="form-control" placeholder="img/hero/hero-1.jpg or https://..." style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <label class="form-label-admin" for="anime-form-backdrop">Backdrop Banner URL</label>
+                                <input type="text" id="anime-form-backdrop" class="form-control admin-input" placeholder="img/hero/hero-1.jpg or https://...">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="text-white font-weight-bold" style="font-size: 13px;">Synopsis / Story Description</label>
-                            <textarea id="anime-form-synopsis" class="form-control" rows="3" placeholder="Enter anime storyline synopsis..." style="background: #0b0c2a; border: 1px solid rgba(255,255,255,0.15); color: #fff;"></textarea>
+                            <label class="form-label-admin" for="anime-form-synopsis">Synopsis / Story Description</label>
+                            <textarea id="anime-form-synopsis" class="form-control admin-input" rows="3" placeholder="Enter anime storyline synopsis..."></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer" style="border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 25px;">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 6px;">Cancel</button>
-                        <button type="submit" id="anime-form-submit-btn" class="primary-btn" style="background: #e53637; border: none; border-radius: 6px; padding: 10px 24px; font-weight: 700; cursor: pointer;">
-                            <i class="fa fa-check mr-1"></i> Save Anime
+                    <div class="modal-footer" style="padding: 15px 25px;">
+                        <button type="button" class="admin-btn-ghost" data-dismiss="modal">Cancel</button>
+                        <button type="submit" id="anime-form-submit-btn" class="admin-btn-primary">
+                            <i class="fa fa-check"></i> Save Anime
                         </button>
                     </div>
                 </form>
@@ -424,176 +866,213 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const authGuard = document.getElementById('admin-auth-guard');
             const adminContent = document.getElementById('admin-content');
-            const user = API.auth.getUser();
 
-            // Check Admin Authorization
-            if (!user || user.role !== 'admin') {
+            // ---------- Helpers ----------
+            const AUTH_FAIL_PATTERN = /token|session|admin|forbidden|denied|expired|log ?in/i;
+            const isAuthFailure = (res) => res && res.success === false && AUTH_FAIL_PATTERN.test(res.message || '');
+
+            function showDenied(subtitle) {
+                adminContent.style.display = 'none';
+                authGuard.style.display = 'block';
                 authGuard.innerHTML = `
-                    <div class="p-5 text-center" style="background: #1d1e39; border-radius: 14px; border: 1px solid rgba(229, 54, 55, 0.4); max-width: 500px; margin: 40px auto; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
-                        <i class="fa fa-shield fa-4x text-danger mb-3 d-block"></i>
-                        <h3 class="text-white mb-2">Access Denied</h3>
-                        <p class="text-muted mb-4">Administrator privileges are required to access this dashboard.</p>
-                        <a href="login.html" class="primary-btn" style="background: #e53637; padding: 12px 30px; border-radius: 6px; display: inline-block;">Log in as Admin</a>
+                    <div class="denied-card">
+                        <i class="fa fa-shield shield"></i>
+                        <h3 class="text-white mb-2" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px;">Access Denied</h3>
+                        <p style="color: #8f9bb7; margin-bottom: 24px;">${subtitle}</p>
+                        <a href="login.html" class="admin-btn-primary" style="text-decoration: none;">Log in as Admin</a>
                     </div>
                 `;
+            }
+
+            function showGlobalAlert(type, msg) {
+                const box = document.getElementById('admin-global-alert');
+                box.className = 'form-alert mb-4 ' + (type === 'success' ? 'form-alert-success' : 'form-alert-error');
+                box.style.display = 'block';
+                box.innerHTML = (type === 'success'
+                    ? '<i class="fa fa-check-circle"></i> '
+                    : '<i class="fa fa-exclamation-circle"></i> ') + escapeHtml(msg);
+                clearTimeout(showGlobalAlert._t);
+                showGlobalAlert._t = setTimeout(() => { box.style.display = 'none'; }, 4000);
+            }
+
+            const starRow = (rating) =>
+                '⭐'.repeat(Math.min(5, Math.round((rating || 10) / 2))) + ` <span style="color:#8f9bb7;">(${rating || 10}/10)</span>`;
+
+            // ---------- Server-verified Admin Guard ----------
+            // localStorage can be stale or forged - confirm role against the API
+            // (/api/auth/me re-reads the user from the database on every request).
+            let me = null;
+            try {
+                me = await API.auth.getMe();
+            } catch (err) {
+                me = null;
+            }
+
+            if (!me || me.role !== 'admin') {
+                showDenied(me
+                    ? 'Administrator privileges are required to access this dashboard.'
+                    : 'Your session is missing or has expired. Please log in with an administrator account.');
                 return;
             }
 
-            // Show Admin Content
             authGuard.style.display = 'none';
             adminContent.style.display = 'block';
+            document.getElementById('admin-welcome-line').textContent =
+                `Welcome back, ${me.username}. Control the anime catalog, user reviews, and contact messages in real-time.`;
 
-            // Tab switching logic for styling
-            $('.admin-tabs a').on('click', function (e) {
-                e.preventDefault();
-                $('.admin-tabs a').removeClass('active').css({ 'border-bottom': 'none', 'color': '#a0aec0' });
-                $(this).addClass('active').css({ 'border-bottom': '3px solid #e53637', 'color': '#ffffff' });
-                $(this).tab('show');
+            // ---------- Data Loaders ----------
+            async function loadStats() {
+                try {
+                    const res = await API.admin.getStats();
+                    if (res.success && res.stats) {
+                        document.getElementById('stat-total-anime').textContent = res.stats.totalAnime || 0;
+                        document.getElementById('stat-total-users').textContent = res.stats.totalUsers || 0;
+                        document.getElementById('stat-total-views').textContent = Number(res.stats.totalViews || 0).toLocaleString();
+                        document.getElementById('stat-total-reviews').textContent = res.stats.totalReviews || 0;
+                        document.getElementById('stat-total-messages').textContent = res.stats.totalMessages || 0;
+                        document.getElementById('tab-count-anime').textContent = res.stats.totalAnime || 0;
+                        return;
+                    }
+                    if (isAuthFailure(res)) return showDenied('Your session has expired. Please log in again as an administrator.');
+                } catch (err) {
+                    console.error('Error loading stats:', err);
+                }
+            }
+
+            async function loadAnimeTable() {
+                const tbody = document.getElementById('admin-anime-tbody');
+                try {
+                    const res = await API.anime.getAll({ limit: 100 });
+                    if (res.success && res.data) {
+                        if (res.data.length === 0) {
+                            tbody.innerHTML = `
+                                <tr><td colspan="7">
+                                    <div class="empty-state"><i class="fa fa-film"></i>No anime records found. Use "Add New Anime" to create the first entry.</div>
+                                </td></tr>`;
+                            return;
+                        }
+
+                        tbody.innerHTML = res.data.map(anime => `
+                            <tr>
+                                <td>
+                                    <img src="${escapeHtml(anime.poster_url)}" alt="${escapeHtml(anime.title)}" class="table-poster" onerror="this.src='img/trending/trend-1.jpg'">
+                                </td>
+                                <td>
+                                    <strong class="text-white d-block">${escapeHtml(anime.title)}</strong>
+                                    <span style="font-size: 12px; color: #8f9bb7;">${escapeHtml(anime.native_title || '')}</span>
+                                </td>
+                                <td>
+                                    <span class="pill pill-red mr-1">${escapeHtml(anime.type || 'TV')}</span>
+                                    <span style="font-size: 13px;">${escapeHtml(anime.genre || '')}</span>
+                                </td>
+                                <td style="color: #ffd32a; font-weight: 700;">
+                                    <i class="fa fa-star"></i> ${escapeHtml(anime.rating || '8.5')}
+                                </td>
+                                <td>${Number(anime.views || 0).toLocaleString()}</td>
+                                <td>
+                                    <span class="pill ${anime.status === 'Completed' ? 'pill-green' : (anime.status === 'Upcoming' ? 'pill-yellow' : 'pill-cyan')}">${escapeHtml(anime.status || 'Airing')}</span>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <a href="anime-details.html?id=${encodeURIComponent(anime.id)}" target="_blank" class="icon-btn view" title="View"><i class="fa fa-eye"></i></a>
+                                    <button class="icon-btn danger delete-anime-btn" data-id="${escapeHtml(anime.id)}" data-title="${escapeHtml(anime.title)}" title="Delete"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                        return;
+                    }
+                    if (isAuthFailure(res)) return showDenied('Your session has expired. Please log in again as an administrator.');
+                    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fa fa-exclamation-circle"></i>${escapeHtml(res.message || 'Failed to load anime catalog.')}</div></td></tr>`;
+                } catch (err) {
+                    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fa fa-exclamation-triangle"></i>Failed to load anime catalog. Is the backend running?</div></td></tr>`;
+                }
+            }
+
+            async function loadReviewsTable() {
+                const tbody = document.getElementById('admin-reviews-tbody');
+                try {
+                    const res = await API.admin.getReviews();
+                    if (res.success && res.data) {
+                        document.getElementById('tab-count-reviews').textContent = res.count || res.data.length;
+                        if (res.data.length === 0) {
+                            tbody.innerHTML = `
+                                <tr><td colspan="6">
+                                    <div class="empty-state"><i class="fa fa-comments"></i>No user reviews yet.</div>
+                                </td></tr>`;
+                            return;
+                        }
+
+                        tbody.innerHTML = res.data.map(rev => `
+                            <tr>
+                                <td><strong class="text-white">${escapeHtml(rev.username)}</strong></td>
+                                <td>${escapeHtml(rev.anime_title || 'Anime')}</td>
+                                <td style="color: #ffd32a; white-space: nowrap;">${starRow(rev.rating)}</td>
+                                <td style="color: #ffffff; max-width: 320px;">${escapeHtml(rev.comment)}</td>
+                                <td style="font-size: 12px; color: #8f9bb7; white-space: nowrap;">${new Date(rev.created_at).toLocaleDateString()}</td>
+                                <td class="text-right">
+                                    <button class="icon-btn danger delete-review-btn" data-id="${escapeHtml(rev.id)}" title="Delete"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                        return;
+                    }
+                    if (isAuthFailure(res)) return showDenied('Your session has expired. Please log in again as an administrator.');
+                    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fa fa-exclamation-circle"></i>${escapeHtml(res.message || 'Failed to load reviews.')}</div></td></tr>`;
+                } catch (err) {
+                    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fa fa-exclamation-triangle"></i>Failed to load reviews.</div></td></tr>`;
+                }
+            }
+
+            async function loadMessagesTable() {
+                const tbody = document.getElementById('admin-messages-tbody');
+                try {
+                    const res = await API.admin.getContacts();
+                    if (res.success && res.data) {
+                        document.getElementById('tab-count-messages').textContent = res.count || res.data.length;
+                        if (res.data.length === 0) {
+                            tbody.innerHTML = `
+                                <tr><td colspan="5">
+                                    <div class="empty-state"><i class="fa fa-envelope-o"></i>No contact messages received yet.</div>
+                                </td></tr>`;
+                            return;
+                        }
+
+                        tbody.innerHTML = res.data.map(msg => `
+                            <tr>
+                                <td style="font-weight: 700; color: #ffffff;">${escapeHtml(msg.name)}</td>
+                                <td><a href="mailto:${escapeHtml(msg.email)}" style="color: #00bcd4;">${escapeHtml(msg.email)}</a></td>
+                                <td style="color: #ffffff; max-width: 360px;">${escapeHtml(msg.message)}</td>
+                                <td style="font-size: 12px; color: #8f9bb7; white-space: nowrap;">${new Date(msg.created_at).toLocaleDateString()}</td>
+                                <td class="text-right">
+                                    <button class="icon-btn danger delete-message-btn" data-id="${escapeHtml(msg.id)}" title="Delete"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                        return;
+                    }
+                    if (isAuthFailure(res)) return showDenied('Your session has expired. Please log in again as an administrator.');
+                    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fa fa-exclamation-circle"></i>${escapeHtml(res.message || 'Failed to load messages.')}</div></td></tr>`;
+                } catch (err) {
+                    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fa fa-exclamation-triangle"></i>Failed to load messages.</div></td></tr>`;
+                }
+            }
+
+            function loadAll() {
+                return Promise.all([loadStats(), loadAnimeTable(), loadReviewsTable(), loadMessagesTable()]);
+            }
+
+            // ---------- Events ----------
+            document.getElementById('refresh-dashboard-btn').addEventListener('click', () => {
+                loadAll();
+                showGlobalAlert('success', 'Dashboard data refreshed.');
             });
 
-            // Open Modal handler
             $('#open-add-anime-modal').on('click', function () {
                 $('#add-anime-form')[0].reset();
                 $('#modal-alert').hide();
                 $('#addAnimeModal').modal('show');
             });
 
-            // Load Dashboard Overview Stats
-            async function loadStats() {
-                try {
-                    const res = await API.admin.getStats();
-                    if (res.success && res.stats) {
-                        $('#stat-total-anime').text(res.stats.totalAnime || 0);
-                        $('#stat-total-views').text(Number(res.stats.totalViews || 0).toLocaleString());
-                        $('#stat-total-reviews').text(res.stats.totalReviews || 0);
-                        $('#stat-total-messages').text(res.stats.totalMessages || 0);
-                    }
-                } catch (err) {
-                    console.error('Error loading stats:', err);
-                }
-            }
-
-            // Load Anime Catalog Table
-            async function loadAnimeTable() {
-                const tbody = $('#admin-anime-tbody');
-                try {
-                    const res = await API.anime.getAll({ limit: 100 });
-                    if (res.success && res.data) {
-                        if (res.data.length === 0) {
-                            tbody.html('<tr><td colspan="7" class="text-center py-4 text-muted">No anime records found.</td></tr>');
-                            return;
-                        }
-
-                        tbody.html(res.data.map(anime => `
-                            <tr>
-                                <td style="padding: 12px 16px; vertical-align: middle;">
-                                    <img src="${anime.poster_url}" alt="${anime.title}" style="width: 44px; height: 60px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" onerror="this.src='img/trending/trend-1.jpg'">
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle;">
-                                    <strong class="text-white d-block">${anime.title}</strong>
-                                    <span style="font-size: 12px; color: #8888aa;">${anime.native_title || ''}</span>
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle;">
-                                    <span class="badge badge-danger mr-1" style="background: #e53637;">${anime.type || 'TV'}</span>
-                                    <span style="font-size: 13px; color: #cbd5e1;">${anime.genre || ''}</span>
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffd32a; font-weight: 700;">
-                                    <i class="fa fa-star"></i> ${anime.rating || '8.5'}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #cbd5e1;">
-                                    ${Number(anime.views || 0).toLocaleString()}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle;">
-                                    <span class="badge ${anime.status === 'Completed' ? 'badge-success' : 'badge-primary'}" style="padding: 4px 8px;">${anime.status || 'Airing'}</span>
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; text-align: right;">
-                                    <a href="anime-details.html?id=${anime.id}" target="_blank" class="btn btn-sm btn-info mr-1" title="View"><i class="fa fa-eye"></i></a>
-                                    <button class="btn btn-sm btn-danger delete-anime-btn" data-id="${anime.id}" data-title="${anime.title}" title="Delete"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `).join(''));
-                    }
-                } catch (err) {
-                    tbody.html('<tr><td colspan="7" class="text-center py-4 text-danger">Failed to load anime catalog.</td></tr>');
-                }
-            }
-
-            // Load Reviews Table
-            async function loadReviewsTable() {
-                const tbody = $('#admin-reviews-tbody');
-                try {
-                    const res = await API.admin.getReviews();
-                    if (res.success && res.data) {
-                        if (res.data.length === 0) {
-                            tbody.html('<tr><td colspan="6" class="text-center py-4 text-muted">No user reviews found.</td></tr>');
-                            return;
-                        }
-
-                        tbody.html(res.data.map(rev => `
-                            <tr>
-                                <td style="padding: 12px 16px; vertical-align: middle;">
-                                    <strong class="text-white">${rev.username}</strong>
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #cbd5e1;">
-                                    ${rev.anime_title || 'Anime'}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffd32a;">
-                                    ${'⭐'.repeat(rev.rating || 5)}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffffff; max-width: 300px;">
-                                    ${rev.comment}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; font-size: 12px; color: #8888aa;">
-                                    ${new Date(rev.created_at).toLocaleDateString()}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; text-align: right;">
-                                    <button class="btn btn-sm btn-danger delete-review-btn" data-id="${rev.id}"><i class="fa fa-trash"></i> Delete</button>
-                                </td>
-                            </tr>
-                        `).join(''));
-                    }
-                } catch (err) {
-                    tbody.html('<tr><td colspan="6" class="text-center py-4 text-danger">Failed to load reviews.</td></tr>');
-                }
-            }
-
-            // Load Messages Table
-            async function loadMessagesTable() {
-                const tbody = $('#admin-messages-tbody');
-                try {
-                    const res = await API.admin.getContacts();
-                    if (res.success && res.data) {
-                        if (res.data.length === 0) {
-                            tbody.html('<tr><td colspan="5" class="text-center py-4 text-muted">No contact messages received.</td></tr>');
-                            return;
-                        }
-
-                        tbody.html(res.data.map(msg => `
-                            <tr>
-                                <td style="padding: 12px 16px; vertical-align: middle; font-weight: 700; color: #ffffff;">
-                                    ${msg.name}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #00bcd4;">
-                                    <a href="mailto:${msg.email}" style="color: #00bcd4;">${msg.email}</a>
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; color: #ffffff; max-width: 350px;">
-                                    ${msg.message}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; font-size: 12px; color: #8888aa;">
-                                    ${new Date(msg.created_at).toLocaleDateString()}
-                                </td>
-                                <td style="padding: 12px 16px; vertical-align: middle; text-align: right;">
-                                    <button class="btn btn-sm btn-danger delete-message-btn" data-id="${msg.id}"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `).join(''));
-                    }
-                } catch (err) {
-                    tbody.html('<tr><td colspan="5" class="text-center py-4 text-danger">Failed to load messages.</td></tr>');
-                }
-            }
-
-            // Handle Add Anime Form Submission
+            // Add Anime form submission
             $('#add-anime-form').on('submit', async function (e) {
                 e.preventDefault();
                 const alertBox = document.getElementById('modal-alert');
@@ -621,28 +1100,30 @@
                     if (res.success) {
                         alertBox.className = 'form-alert form-alert-success';
                         alertBox.style.display = 'block';
-                        alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + res.message;
+                        alertBox.innerHTML = '<i class="fa fa-check-circle"></i> ' + escapeHtml(res.message);
+                        showGlobalAlert('success', res.message);
                         setTimeout(() => {
                             $('#addAnimeModal').modal('hide');
                             loadAnimeTable();
                             loadStats();
-                        }, 1200);
+                        }, 900);
                     } else {
+                        if (isAuthFailure(res)) return showDenied('Your session has expired. Please log in again as an administrator.');
                         alertBox.className = 'form-alert form-alert-error';
                         alertBox.style.display = 'block';
-                        alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + (res.message || 'Failed to add anime.');
+                        alertBox.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + escapeHtml(res.message || 'Failed to add anime.');
                     }
                 } catch (err) {
                     alertBox.className = 'form-alert form-alert-error';
                     alertBox.style.display = 'block';
-                    alertBox.innerHTML = '<i class="fa fa-exclamation-triangle"></i> ' + err.message;
+                    alertBox.innerHTML = '<i class="fa fa-exclamation-triangle"></i> ' + escapeHtml(err.message);
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fa fa-check mr-1"></i> Save Anime';
+                    submitBtn.innerHTML = '<i class="fa fa-check"></i> Save Anime';
                 }
             });
 
-            // Handle Delete Anime
+            // Delete Anime
             $(document).on('click', '.delete-anime-btn', async function () {
                 const id = $(this).data('id');
                 const title = $(this).data('title');
@@ -651,49 +1132,58 @@
                 try {
                     const res = await API.admin.deleteAnime(id);
                     if (res.success) {
+                        showGlobalAlert('success', res.message);
                         loadAnimeTable();
                         loadStats();
+                    } else if (isAuthFailure(res)) {
+                        showDenied('Your session has expired. Please log in again as an administrator.');
                     } else {
-                        alert(res.message || 'Failed to delete anime.');
+                        showGlobalAlert('error', res.message || 'Failed to delete anime.');
                     }
                 } catch (err) {
-                    alert(err.message || 'Error deleting anime.');
+                    showGlobalAlert('error', err.message || 'Error deleting anime.');
                 }
             });
 
-            // Handle Delete Review
+            // Delete Review
             $(document).on('click', '.delete-review-btn', async function () {
-                const id = $(this).data('id');
                 if (!confirm('Are you sure you want to delete this review?')) return;
-
                 try {
-                    const res = await API.admin.deleteReview(id);
+                    const res = await API.admin.deleteReview($(this).data('id'));
                     if (res.success) {
+                        showGlobalAlert('success', res.message);
                         loadReviewsTable();
                         loadStats();
+                    } else if (isAuthFailure(res)) {
+                        showDenied('Your session has expired. Please log in again as an administrator.');
+                    } else {
+                        showGlobalAlert('error', res.message || 'Failed to delete review.');
                     }
                 } catch (err) {
-                    alert(err.message || 'Error deleting review.');
+                    showGlobalAlert('error', err.message || 'Error deleting review.');
                 }
             });
 
-            // Handle Delete Message
+            // Delete Contact Message
             $(document).on('click', '.delete-message-btn', async function () {
-                const id = $(this).data('id');
                 if (!confirm('Are you sure you want to delete this message?')) return;
-
                 try {
-                    const res = await API.admin.deleteContact(id);
+                    const res = await API.admin.deleteContact($(this).data('id'));
                     if (res.success) {
+                        showGlobalAlert('success', res.message);
                         loadMessagesTable();
                         loadStats();
+                    } else if (isAuthFailure(res)) {
+                        showDenied('Your session has expired. Please log in again as an administrator.');
+                    } else {
+                        showGlobalAlert('error', res.message || 'Failed to delete message.');
                     }
                 } catch (err) {
-                    alert(err.message || 'Error deleting message.');
+                    showGlobalAlert('error', err.message || 'Error deleting message.');
                 }
             });
 
-            // Live filter for anime table
+            // Live filter for the anime table
             $('#admin-anime-search').on('input', function () {
                 const term = $(this).val().toLowerCase();
                 $('#admin-anime-tbody tr').each(function () {
@@ -703,10 +1193,7 @@
             });
 
             // Initial Data Load
-            loadStats();
-            loadAnimeTable();
-            loadReviewsTable();
-            loadMessagesTable();
+            loadAll();
         });
     </script>
 </body>
